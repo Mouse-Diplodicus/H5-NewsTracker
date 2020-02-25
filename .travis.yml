@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
+dist: trusty
+
+addons:
+  sonarcloud:
+    organization: "h5-news-tracker"
+    token: $SONAR_TOKEN
+
+before_install:
+  - npm install -g web-ext
+
+scripts:
+  - web-ext lint
+  - sonar-scanner
