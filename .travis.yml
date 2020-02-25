@@ -17,5 +17,5 @@ before_install:
   - npm install -g web-ext
 
 scripts:
-  - web-ext lint
+  - pytest
   - sonar-scanner
