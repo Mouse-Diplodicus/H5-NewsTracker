@@ -30,6 +30,6 @@ addons:
     token: $SONAR_TOKEN
 
 script:
-  - pylint
+  - pylint src/*
   - pytest
-  - sonar-scanner
+  - sonar-scanner -X
