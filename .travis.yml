@@ -1,4 +1,9 @@
 language: python
+os:
+  - linux
+  - osx
+  - windows
+  
 python:
   - "3.4"
   - "3.5"
@@ -16,6 +21,7 @@ addons:
 before_install:
   - npm install -g web-ext
 
-scripts:
+script:
+  - pylint
   - pytest
   - sonar-scanner
