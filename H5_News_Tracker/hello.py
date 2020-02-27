@@ -5,6 +5,7 @@ import tkinter
 
 
 def main():
+    """Displays a window onscreen with the text, 'Hi, nice to see you'"""
     root = tkinter.Tk()
     label = tkinter.Label(root, text="Hi, nice to see you")
     label.pack()
