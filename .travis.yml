@@ -3,6 +3,7 @@ jobs:
   include:
     - name: "Python 3.6.0 on Xenial Linux"
       python: 3.6           # this works for Linux but is ignored on macOS or Windows
+      script: sonar-scanner
     - name: "Python 3.4.0 on Xenial Linux"
       python: 3.4
     - name: "Python 3.7.4 on macOS"
@@ -31,5 +32,3 @@ addons:
 
 script:
   - pylint src/*
-  - pytest
-  - sonar-scanner -X
