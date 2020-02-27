@@ -1,13 +1,13 @@
 """
-high level support for doing this and that.
+Program displays a window with text using Tkinter when run.
 """
 import tkinter
 
 
 def main():
-    """Displays a window onscreen with the text, 'Hi, nice to see you'"""
+    """Displays a window onscreen with the text, 'Hi, nice to see you!'"""
     root = tkinter.Tk()
-    label = tkinter.Label(root, text="Hi, nice to see you")
+    label = tkinter.Label(root, text="Hi, nice to see you!")
     label.pack()
     root.mainloop()
 
