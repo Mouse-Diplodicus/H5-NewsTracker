@@ -3,10 +3,13 @@ high level support for doing this and that.
 """
 import tkinter
 
-Root = tkinter.Tk()
 
-Label = tkinter.Label(Root, text="Hi, nice to see you")
+def main():
+    root = tkinter.Tk()
+    label = tkinter.Label(root, text="Hi, nice to see you")
+    label.pack()
+    root.mainloop()
 
-Label.pack()
 
-Root.mainloop()
+if __name__ == "__main__":
+    main()
