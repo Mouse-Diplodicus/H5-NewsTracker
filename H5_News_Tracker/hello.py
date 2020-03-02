@@ -8,7 +8,7 @@ from tkinter import ttk
 def main():
     """Displays a window onscreen with the text, 'Hi, nice to see you!'"""
     root = tkinter.Tk()
-    root.overrideredirect(1)
+    root.overrideredirect(1)                # Makes window borderless
     style = ttk.Style()
     style.configure("WB.TLabel", foreground="#ffffff", background="#000000")
     style.configure("R.TLabel", foreground="#000000", background="#931113")
