@@ -1,8 +1,15 @@
+"""
+Reused code from StackOverFlow
+https://stackoverflow.com/questions/23482748/how-to-create-a-hyperlink-with-a-label-in-tkinter
+"""
+
+
 import tkinter as tk
 import webbrowser
 
 
 def callback(url):
+    """Sends the url link to your default browser"""
     webbrowser.open_new(url)
 
 
