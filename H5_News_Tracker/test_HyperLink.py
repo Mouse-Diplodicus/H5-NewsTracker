@@ -1,5 +1,5 @@
 import unittest
-import team5_RSS_Ticker
+from H5_News_Tracker import team5_RSS_Ticker
 
 class TestHyperLink(unittest.TestCase):
 
