@@ -27,6 +27,7 @@ class App(tk.Frame):
         self.updateHeadline()
 
     def updateHeadline(self):
+        """Grabs headline from RSS feed and uses the title as well as incrementing index"""
         try:
             headline = feed['entries'][self.headlineIndex]['title']
         except IndexError:
