@@ -1,16 +1,21 @@
 """
 high level support for doing this and that.
 """
-import tkinter
+import tkinter as tk
+import webbrowser
 
 
-def main():
-    """Displays a window onscreen with the text, 'Hi, nice to see you'"""
-    root = tkinter.Tk()
-    label = tkinter.Label(root, text="Hi, nice to see you")
-    label.pack()
+def display_RSS_Ticker():
+    """Displays a window onscreen with a reddit link'"""
+    root = tk.Tk()
+    link1 = tk.Label(root, text="Reddit Hyperlink", fg="black", cursor="hand2")
+    link1.bind("<Button-1>", lambda e: callback('http://www.reddit.com/'))
+    link1.pack()
+
     root.mainloop()
 
+def callback(url):
+    webbrowser.open_new(url)
 
 if __name__ == "__main__":
-    main()
+    display_RSS_Ticker()
