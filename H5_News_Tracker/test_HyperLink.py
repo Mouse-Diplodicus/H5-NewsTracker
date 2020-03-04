@@ -1,16 +1,10 @@
 import unittest
-import tkinter as tk
-import HyperLink
-import hello
-
+import hello.py
 
 class TestHyperLink(unittest.TestCase):
 
     def setUp(self):
-        root = tk.Tk()
-        link1 = tk.Label(root, text="Reddit Hyperlink", fg="black", cursor="hand2")
-        link1.pack()
-        root.mainloop()
+        pass
 
     def test_mock_reddit_link(self):
         pass
