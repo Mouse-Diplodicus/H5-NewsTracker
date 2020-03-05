@@ -3,11 +3,23 @@ jobs:
   include:
     - name: "Python 3.6.0 on Xenial Linux"
       python: 3.6           # this works for Linux but is ignored on macOS or Windows
-      script:
-        - sonar-scanner
-        - pylint H5_News_Tracker/*
-    - name: "Python 3.4.0 on Xenial Linux"
-      python: 3.4
+      install:
+        - pip3 install pylint
+        - pip3 install xenon
+        - pip3 install radon
+      dist: trusty          # This is needed for SonarCloud to work
+      addons:
+        sonarcloud:         # Providing SonarCloud information
+          organization: "h5-news-tracker"
+          token: $SONAR_TOKEN
+      script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
+        - sonar-scanner         # commands are placed here since they play nicest with Linux
+        - pylint H5_News_Tracker/ 
+        - radon cc --average --show-complexity --order SCORE H5_News_Tracker/      #Output CC results for viewing
+        - xenon xenon -bB -mA -aA -e "./test"             #Run Cyclomatic Complexity test
+        - radon mi --multi --show H5_News_Tracker/        #Outputs Maintainability score
+        - radon raw --summary H5_News_Tracker/            #Outputs Raw Metrics
+        - radon hal H5_News_Tracker/                      #Outputs Halstead Metrics
     - name: "Python 3.7.4 on macOS"
       os: osx
       osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
@@ -21,16 +33,8 @@ jobs:
       env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
 install:
   - pip3 install --upgrade pip  # all three OSes agree about 'pip3'
-  - pip3 install pylint
 # 'python' points to Python 2.7 on macOS but points to Python 3.8 on Linux and Windows
 # 'python3' is a 'command not found' error on Windows but 'py' works on Windows only
 
-dist: trusty
-
-addons:
-  sonarcloud:
-    organization: "h5-news-tracker"
-    token: $SONAR_TOKEN
-
+# Any commands placed here will run on the MacOS, Windows tests
 script:
-  - pylint src/*
