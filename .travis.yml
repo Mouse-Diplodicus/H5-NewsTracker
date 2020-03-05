@@ -5,6 +5,7 @@ jobs:
       python: 3.6           # this works for Linux but is ignored on macOS or Windows
       install:
         - pip3 install pylint
+        - pip3 install xenon
       dist: trusty          # This is needed for SonarCloud to work
       addons:
         sonarcloud:         # Providing SonarCloud information
@@ -13,6 +14,7 @@ jobs:
       script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
         - sonar-scanner         # commands are placed here since they play nicest with Linux
         - pylint H5_News_Tracker/*
+        - xenon xenon -bB -mA -aA -e ./test
     - name: "Python 3.4.0 on Xenial Linux"
       python: 3.4
     - name: "Python 3.7.4 on macOS"
