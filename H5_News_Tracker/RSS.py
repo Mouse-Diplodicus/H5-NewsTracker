@@ -21,19 +21,11 @@ text = tk.Text(root)
 
 for entry in feed.entries:
     headline = entry.title
-    headlineIndex = 0
-    try:
-        headline = feed['entries'][headlineIndex]['title']
-    except IndexError:
-        """This will happen if we go beyond the end of the list of entries"""
-        headlineIndex = 0
-        headline = feed['entries'][headlineIndex]['title']
-        headlineIndex += 1
     article_link = entry.link
 
     print("{}[{}]".format(headline, article_link))
 
-    link = tk.Label(root, text="{}\n".format(headline), fg="blue", cursor="hand2")
+    link = tk.Label(root, text="{}\n".format(headline), fg="black", cursor="hand2")
     link.pack()
 
     link.bind("<Button-1>", lambda event, link=article_link: callback(event, link))
