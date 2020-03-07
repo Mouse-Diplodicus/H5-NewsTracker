@@ -6,10 +6,10 @@ MVC: Model-View-Controller, is a well-known and wide practiced design paradigm f
 Tkinter: The default GUI framework of python. Although not the most beautiful around it does not require (complex) dependencies and is therefore very portable.
 # Controller
 A Controller serves as the logic hub of the application and as a bridge between a view and model.
-# View
+# GUI
 Frame: Non-interacting Frame widget.
 View: interacting, requires a controller.
-# Model
+# Parser
 Models store and manipulate data contained by the application. 
 
 # Application flow
