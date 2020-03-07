@@ -8,15 +8,15 @@ import tkinter as ttk
 import webbrowser
 
 
-def callback(url):
+def go_to(url):
     """Sends the url link to your default browser"""
     webbrowser.open_new(url)
 
 
-root = ttk.Tk()
-link1 = ttk.Label(root, text="Reddit Hyperlink", fg="black", cursor="hand2")
+ROOT = ttk.Tk()
+LINK = ttk.Label(ROOT, text="Reddit Hyperlink", fg="black", cursor="hand2")
 
-link1.bind("<Button-1>", lambda e: callback('http://www.reddit.com/'))
-link1.pack()
+LINK.bind("<Button-1>", lambda e: go_to('http://www.reddit.com/'))
+LINK.pack()
 
-root.mainloop()
+ROOT.mainloop()
