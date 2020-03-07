@@ -4,7 +4,7 @@ https://stackoverflow.com/questions/23482748/how-to-create-a-hyperlink-with-a-la
 """
 
 
-import tkinter as tk
+import tkinter as ttk
 import webbrowser
 
 
@@ -13,8 +13,8 @@ def callback(url):
     webbrowser.open_new(url)
 
 
-root = tk.Tk()
-link1 = tk.Label(root, text="Reddit Hyperlink", fg="black", cursor="hand2")
+root = ttk.Tk()
+link1 = ttk.Label(root, text="Reddit Hyperlink", fg="black", cursor="hand2")
 
 link1.bind("<Button-1>", lambda e: callback('http://www.reddit.com/'))
 link1.pack()
