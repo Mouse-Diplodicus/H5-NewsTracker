@@ -8,12 +8,12 @@ import webbrowser
 import tkinter as tk
 
 
-def callback(event, link):
+def goto(event, link):
     webbrowser.open_new(article_link)
 
 
 feed = feedparser.parse('http://www.reddit.com/r/python/.rss')
-feedShow = {'entries': [{feed['entries'][0]['title']}]}
+feed_show = {'entries': [{feed['entries'][0]['title']}]}
 
 root = tk.Tk()
 text = tk.Text(root)
@@ -28,7 +28,6 @@ for entry in feed.entries:
     link = tk.Label(root, text="{}\n".format(headline), fg="black", cursor="hand2")
     link.pack()
 
-    link.bind("<Button-1>", lambda event, link=article_link: callback(event, link))
+    link.bind("<Button-1>", lambda event, link=article_link: goto(event, link))
 
-text.tag_config("here")
 root.mainloop()
