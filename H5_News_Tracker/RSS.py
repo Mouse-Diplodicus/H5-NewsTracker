@@ -7,40 +7,36 @@ import feedparser
 import webbrowser
 import tkinter as tk
 
+
+def callback(event, link):
+    webbrowser.open_new(article_link)
+
+
 feed = feedparser.parse('http://www.reddit.com/r/python/.rss')
 feedShow = {'entries': [{feed['entries'][0]['title']}]}
 
-
-def callback():
-    """Sends the url link to your default browser"""
-    webbrowser.open_new()
+root = tk.Tk()
+text = tk.Text(root)
 
 
-class App(tk.Frame):
-    def __init__(self, master=None, **kw):
-        """Sets index headline @ 0 to increment and creates the GUI frame"""
-        tk.Frame.__init__(self, master=master, **kw)
-        self.txtHeadline = tk.StringVar()
-        self.headline = tk.Label(self, textvariable=self.txtHeadline)
-        self.headline.grid()
-        self.headlineIndex = 0
-        self.updateHeadline()
+for entry in feed.entries:
+    headline = entry.title
+    headlineIndex = 0
+    try:
+        headline = feed['entries'][headlineIndex]['title']
+    except IndexError:
+        """This will happen if we go beyond the end of the list of entries"""
+        headlineIndex = 0
+        headline = feed['entries'][headlineIndex]['title']
+        headlineIndex += 1
+    article_link = entry.link
 
-    def updateHeadline(self):
-        """Grabs headline from RSS feed and uses the title as well as incrementing index"""
-        try:
-            headline = feed['entries'][self.headlineIndex]['title']
-        except IndexError:
-            """This will happen if we go beyond the end of the list of entries"""
-            self.headlineIndex = 0
-            headline = feed['entries'][self.headlineIndex]['title']
+    print("{}[{}]".format(headline, article_link))
 
-        self.txtHeadline.set(headline)
-        self.headlineIndex += 1
-        self.after(10000, self.updateHeadline)
+    link = tk.Label(root, text="{}\n".format(headline), fg="blue", cursor="hand2")
+    link.pack()
 
+    link.bind("<Button-1>", lambda event, link=article_link: callback(event, link))
 
-if __name__ == '__main__':
-    root = tk.Tk()
-    App(root).grid()
-    root.mainloop()
+text.tag_config("here")
+root.mainloop()
