@@ -22,7 +22,7 @@ Models store and manipulate data contained by the application.
 7. controller updates model
 
 While in the main loop
-Controller receives update
-view listens for update from controller
-view updates from controller
+1. Controller receives update
+2. view listens for update from controller
+3. view updates from controller
 
