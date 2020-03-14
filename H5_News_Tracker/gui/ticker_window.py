@@ -13,7 +13,7 @@ class TickerWindow:
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
 
-    def __init__(self, master=None, **kw):
+    def __init__(self, **kw):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
         self.root.overrideredirect(1)
