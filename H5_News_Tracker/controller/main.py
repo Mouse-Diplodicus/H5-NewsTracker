@@ -2,8 +2,8 @@
 Reused code on StackOverFlow
 https://stackoverflow.com/questions/49362820/update-rss-feed-every-2-minutes
 """
-import feedparser
 import threading
+import feedparser
 from H5_News_Tracker.gui import ticker_window
 
 
