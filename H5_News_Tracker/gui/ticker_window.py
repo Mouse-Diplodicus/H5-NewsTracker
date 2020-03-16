@@ -34,8 +34,8 @@ class TickerWindow:
         print("setting styling")
         style = ttk.Style()
         style.configure("default.TLabel", foreground="#000000", background="#ffffff")
-        style.configure("WB.TLabel", foreground="#ffffff", background="#000000",  relief="GROOVE")
-        style.configure("Exit.TLabel", foreground="#000000", background="#931113", font="arial",  relief="RAISED")
+        style.configure("WB.TLabel", foreground="#ffffff", background="#000000", relief="GROOVE")
+        style.configure("Exit.TLabel", foreground="#000000", background="#931113", relief="RAISED")
         self.label_ticker.configure(style="WB.TLabel")
         self.button_exit.configure(style="Exit.TLabel")
 
