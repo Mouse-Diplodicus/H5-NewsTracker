@@ -1,0 +1,4 @@
+feedparser==5.2.1
+pylint==2.4.4
+xenon==0.7.0
+radon==4.1.0
