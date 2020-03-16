@@ -12,13 +12,14 @@ class TickerWindow:
     root = tkinter.Tk()
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
+    updating_feed = []
 
     def __init__(self, **kw):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
         self.root.overrideredirect(1)
-        self.label_ticker.configure(width=8)
-        self.button_exit.configure(text="X", padding=[4, 0, 4, 0], command=self.root.quit)
+        self.label_ticker.configure(width=8, padding=[0, -1, 0, 0])
+        self.button_exit.configure(text="X", padding=[1, -2, 1, -2], command=self.root.quit)
         self.set_style()
         self.build()
         print("Gui constructed")
@@ -33,10 +34,10 @@ class TickerWindow:
         print("setting styling")
         style = ttk.Style()
         style.configure("default.TLabel", foreground="#000000", background="#ffffff")
-        style.configure("WB.TLabel", foreground="#ffffff", background="#000000")
-        style.configure("BR.TLabel", foreground="#000000", background="#931113", font="arial")
+        style.configure("WB.TLabel", foreground="#ffffff", background="#000000",  relief="GROOVE")
+        style.configure("Exit.TLabel", foreground="#000000", background="#931113", font="arial",  relief="RAISED")
         self.label_ticker.configure(style="WB.TLabel")
-        self.button_exit.configure(style="BR.TLabel")
+        self.button_exit.configure(style="Exit.TLabel")
 
     def build(self):
         """Sets organization for label and exit button"""
