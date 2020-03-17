@@ -27,18 +27,16 @@ def main(**kw):
 def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
-    count = len(library)
-    while True:
-        for i in range(0, count):
-            ticker.update(library[i][0], library[i][1])
-            time.sleep(CYCLE_TIME)
+
+    for i in range(0, len(library)):
+        ticker.update(library[i][0], library[i][1])
+        time.sleep(CYCLE_TIME)
 
 
 def build_library(feed):
     """puts headlines and associated urls into a list"""
     library = []
-    count = len(feed.entries)
-    for i in range(0, count):
+    for i in range(0, len(feed.entries)):
         item = feed.entries[i]
         lib_item = [item.title, item.link]
         library.append(lib_item)
