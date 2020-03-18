@@ -4,12 +4,15 @@ Program displays a window with text using Tkinter when run.
 import tkinter
 import webbrowser
 from tkinter import ttk
+from tkinter.ttk import OptionMenu
 
 
 class TickerWindow:
-
     root = tkinter.Tk()
-    menu = ttk.Label(root)
+    var = tkinter.StringVar(root)
+    choices = {'Background Options', 'Black', 'White', 'Blue', 'Pink'}
+    var.set('Background Options')
+    menu = OptionMenu(root, var, *choices)
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
     root.title("New JRRS")
@@ -18,7 +21,6 @@ class TickerWindow:
         """Initializes the display window for the news ticker"""
         print("constructing gui")
         self.root.overrideredirect(0)
-        self.menu.configure(text="Change Background")
         self.label_ticker.configure(width=8)
         self.button_exit.configure(text="X", padding=[4, 0, 4, 0], command=self.root.quit)
         self.set_style()
