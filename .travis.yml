@@ -12,7 +12,7 @@ jobs:
           token: $SONAR_TOKEN
       script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
         - coverage erase
-        - coverage run --branch --source=H5_News_Tracker/  unittest tests/*
+        - coverage run --branch --source=H5_News_Tracker/ -m unittest tests/*.py
         - coverage xml -i
         - pylint H5_News_Tracker/
         - radon cc --average --show-complexity --order SCORE H5_News_Tracker/      #Output CC results for viewing
