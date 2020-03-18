@@ -23,7 +23,7 @@ class TickerWindow:
         self.set_style()
         self.build()
         print("Gui constructed")
-    
+
     def start(self):
         """Start gui main update loop """
         print("starting main loop")

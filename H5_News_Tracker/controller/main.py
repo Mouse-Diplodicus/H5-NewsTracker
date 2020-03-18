@@ -17,6 +17,7 @@ def main():
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
     ticker = ticker_window.TickerWindow()
+    ticker.initialize()
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
     news_cycle_thread.start()
