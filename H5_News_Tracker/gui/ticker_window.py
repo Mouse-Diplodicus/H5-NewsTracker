@@ -14,7 +14,7 @@ class TickerWindow:
     button_exit = ttk.Button(root)
     updating_feed = []
 
-    def initialize(self):
+    def __init__(self):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
         self.root.overrideredirect(1)
