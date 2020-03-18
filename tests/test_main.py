@@ -17,12 +17,10 @@ class TestMain(unittest.TestCase):
         mock_ticker = Mock()
         test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"], ["headline_2", "https://test_2.com"]]
         test_thread = threading.Thread(target=main.cycle, args=[mock_ticker, test_lib], name="Test-Cycle-Thread")
-        print(test_lib)
 
         try:
             # Act
             test_thread.start()
-            print(mock_ticker.mock_calls)
 
             # Assert
             time.sleep(main.CYCLE_TIME/2)
