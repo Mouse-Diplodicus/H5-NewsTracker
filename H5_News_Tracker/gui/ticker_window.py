@@ -9,13 +9,26 @@ from tkinter.ttk import OptionMenu
 
 class TickerWindow:
     root = tkinter.Tk()
+
     var = tkinter.StringVar(root)
+    var.set('Select')
     choices = {'Background Options', 'Black', 'White', 'Blue', 'Pink'}
-    var.set('Background Options')
-    menu = OptionMenu(root, var, *choices)
+
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
     root.title("New JRRS")
+
+    def background(self, select):
+        if select == 'Black':
+            self.root.configure(self, background="black")
+        elif select == 'White':
+            self.root.configure(self, background="white")
+        elif select == 'Blue':
+            self.root.configure(self, background="blue")
+        elif select == 'Pink':
+            self.root.configure(self, background="pink")
+
+    menu = OptionMenu(root, var, *choices, command=background)
 
     def __init__(self, master=None, **kw):
         """Initializes the display window for the news ticker"""
@@ -39,16 +52,16 @@ class TickerWindow:
         style.configure("default.TLabel", foreground="#000000", background="#ffffff")
         style.configure("WB.TLabel", foreground="#ffffff", background="#000000")
         style.configure("BR.TLabel", foreground="#000000", background="#931113")
-        self.label_ticker.configure(style="WB.TLabel")
+        # self.label_ticker.configure(style="WB.TLabel")
         self.button_exit.configure(style="BR.TLabel")
-        self.menu.configure(style="WB.TLabel")
+        # self.menu.configure(style="WB.TLabel")
 
     def build(self):
         """Sets organization for label and exit button"""
         print("organizing gui layout")
         self.menu.grid(row=0, column=0)
         self.label_ticker.grid(row=10, column=0)
-        self.button_exit.grid(row=10, column=1)
+        self.button_exit.grid(row=10, column=10)
 
     def update(self, headline, url):
         print("updating ticker to headline: ", headline, "   url: ", url)
