@@ -9,10 +9,10 @@ import feedparser
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
-CYCLE_TIME = 7  # in seconds
+CYCLE_TIME = 2  # in seconds
 
 
-def main(**kw):
+def main():
     """Uses ticker_window to show the google news feed"""
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
@@ -28,20 +28,22 @@ def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
     count = len(library)
-    while True:
-        for i in range(0, count):
-            ticker.update(library[i][0], library[i][1])
-            time.sleep(CYCLE_TIME)
+    # while True:
+    for i in range(0, count):
+        ticker.update(library[i][0], library[i][1])
+        time.sleep(CYCLE_TIME)
 
 
 def build_library(feed):
     """puts headlines and associated urls into a list"""
+    print("building library...")
     library = []
     count = len(feed.entries)
     for i in range(0, count):
         item = feed.entries[i]
         lib_item = [item.title, item.link]
         library.append(lib_item)
+    print(library)
     return library
 
 

@@ -14,12 +14,12 @@ class TickerWindow:
     button_exit = ttk.Button(root)
     updating_feed = []
 
-    def __init__(self, **kw):
+    def __init__(self):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
         self.root.overrideredirect(1)
-        self.label_ticker.configure(width=8, padding=[0, -1, 0, 0])
-        self.button_exit.configure(text="X", padding=[1, -2, 1, -2], command=self.root.quit)
+        self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
+        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.root.quit)
         self.set_style()
         self.build()
         print("Gui constructed")
@@ -48,5 +48,5 @@ class TickerWindow:
     def update(self, headline, url):
         """Function updates the headline and associated url being displayed"""
         print("updating ticker to headline: ", headline, "   url: ", url)
-        self.label_ticker.configure(text=headline, width=len(headline))
+        self.label_ticker.configure(text=headline)
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
