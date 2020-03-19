@@ -12,8 +12,12 @@ class TestMain(unittest.TestCase):
     def test_cycle(self):
         pass
 
-    def test_build_library(self):
-        pass
+    mocked_feed = MagicMock()
+
+    @patch('feedparser.parse()', mocked_feed)
+    def test_build_library(self, mocked_feed):
+        print(mocked_feed)
+
 
     def test_pull_feed(self):
         pass
