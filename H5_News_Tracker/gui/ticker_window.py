@@ -12,7 +12,7 @@ class TickerWindow:
 
     var = tkinter.StringVar(root)
     var.set('Select')
-    choices = {'Background Options', 'Black', 'White', 'Blue', 'Pink'}
+    choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
 
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
@@ -20,13 +20,13 @@ class TickerWindow:
 
     def background(self, select):
         if select == 'Black':
-            self.root.configure(self, background="black")
+            self.menu.configure(background='black')
         elif select == 'White':
-            self.root.configure(self, background="white")
+            self.menu.configure(background='white')
         elif select == 'Blue':
-            self.root.configure(self, background="blue")
+            self.menu.configure(background='blue')
         elif select == 'Pink':
-            self.root.configure(self, background="pink")
+            self.menu.configure(background='pink')
 
     menu = OptionMenu(root, var, *choices, command=background)
 
@@ -55,13 +55,15 @@ class TickerWindow:
         # self.label_ticker.configure(style="WB.TLabel")
         self.button_exit.configure(style="BR.TLabel")
         # self.menu.configure(style="WB.TLabel")
+        if self.choices == 'Black':
+            style.configure(background='black')
 
     def build(self):
         """Sets organization for label and exit button"""
         print("organizing gui layout")
-        self.menu.grid(row=0, column=0)
-        self.label_ticker.grid(row=10, column=0)
-        self.button_exit.grid(row=10, column=10)
+        self.menu.grid(row=10, column=0)
+        self.label_ticker.grid(row=0, column=0)
+        self.button_exit.grid(row=0, column=10)
 
     def update(self, headline, url):
         print("updating ticker to headline: ", headline, "   url: ", url)
