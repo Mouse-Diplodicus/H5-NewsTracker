@@ -1,0 +1,20 @@
+ <?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+<channel>
+  <title>Test Title</title>
+  <link>https://www.testwebsite.com</link>
+  <description>Free web building tutorials</description>
+  <item>
+    <title>Test Title 2</title>
+    <link>https://www.2ndtestwebsite.com</link>
+    <description>New RSS tutorial on W3Schools</description>
+  </item>
+  <item>
+    <title>Test Title 3</title>
+    <link>https://www.3rdtestwebsite.com</link>
+    <description>New XML tutorial on W3Schools</description>
+  </item>
+</channel>
+
+</rss>
