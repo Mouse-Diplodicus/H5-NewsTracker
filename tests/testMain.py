@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
-from tests import testFeed
+import testFeed
 
 
 class TestMain(unittest.TestCase):
