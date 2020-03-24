@@ -1,7 +1,3 @@
-"""
-Reused code on StackOverFlow
-https://stackoverflow.com/questions/49362820/update-rss-feed-every-2-minutes
-"""
 import ssl
 import threading
 import time
@@ -12,7 +8,7 @@ from H5_News_Tracker.gui import ticker_window
 CYCLE_TIME = 7  # in seconds
 
 
-def main(**kw):
+def build_rss_ticker(**kw):
     """Uses ticker_window to show the google news feed"""
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
@@ -61,4 +57,4 @@ def pull_feed(feed_url):
 
 if __name__ == '__main__':
     print("Program starting")
-    main()
+    build_rss_ticker()

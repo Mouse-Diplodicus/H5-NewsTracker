@@ -2,11 +2,16 @@ import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
-import testFeed
+# from tests import testFeed
 
 
 class TestMain(unittest.TestCase):
 
+    mocked_pull_feed = MagicMock()
+    mocked_build_library = MagicMock()
+
+    # @patch('main.build_library()', mocked_build_library)
+    # @patch('main.pull_feed()', mocked_pull_feed)
     def test_main(self):
         pass
 
@@ -15,10 +20,14 @@ class TestMain(unittest.TestCase):
 
     mocked_feed = MagicMock()
 
-    @patch('feedparser.parse()', mocked_feed)
+    @patch('H5_News_Tracker.controller.main.build_rss_ticker()', mocked_feed)
     def test_build_library(self, mocked_feed):
+        mocked_feed()
         print(mocked_feed)
-
 
     def test_pull_feed(self):
         pass
+
+
+if __name__ == "__main__":
+    unittest.main()
