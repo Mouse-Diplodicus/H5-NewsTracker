@@ -18,12 +18,15 @@ class TestMain(unittest.TestCase):
     def test_cycle(self):
         pass
 
-    mocked_feed = MagicMock()
-
-    @patch('main.build_rss_ticker()', mocked_feed)
-    def test_build_library(self, mocked_feed):
-        mocked_feed()
-        print(mocked_feed)
+    def test_build_library(self):
+        item = MagicMock()
+        item.title = 'test title'
+        item.link = 'http://www.testsite.com'
+        feed = MagicMock()
+        feed.entries = [item]
+        library = main.build_library(feed)
+        self.assertEqual(library[0][0], 'test title')
+        self.assertEqual(library[0][1], 'http://www.testsite.com')
 
     def test_pull_feed(self):
         pass
