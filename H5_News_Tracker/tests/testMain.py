@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
-# from tests import testFeed
+import feedparser
 
 
 class TestMain(unittest.TestCase):
@@ -20,7 +20,7 @@ class TestMain(unittest.TestCase):
 
     mocked_feed = MagicMock()
 
-    @patch('H5_News_Tracker.controller.main.build_rss_ticker()', mocked_feed)
+    @patch('main.build_rss_ticker()', mocked_feed)
     def test_build_library(self, mocked_feed):
         mocked_feed()
         print(mocked_feed)
