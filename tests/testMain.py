@@ -25,14 +25,21 @@ class TestMain(unittest.TestCase):
         item_empty = MagicMock()
         item_empty.title = ''
         item_empty.link = ''
+        item_none = MagicMock()
+        item_none.title = None
+        item_none.link = None
         feed = MagicMock()
+
         feed.entries = [item]
         feed.entries.append(item_empty)
+        feed.entries.append(item_none)
         library = main.build_library(feed)
         self.assertEqual(library[0][0], 'test title')
         self.assertEqual(library[0][1], 'http://www.testsite.com')
         self.assertEqual(library[1][0], '')
         self.assertEqual(library[1][1], '')
+        self.assertEqual(library[2][0], None)
+        self.assertEqual(library[2][1], None)
 
     def test_pull_feed(self):
         pass
