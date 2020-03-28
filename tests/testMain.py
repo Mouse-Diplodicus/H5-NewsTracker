@@ -13,7 +13,9 @@ class TestMain(unittest.TestCase):
     # @patch('main.build_library()', mocked_build_library)
     # @patch('main.pull_feed()', mocked_pull_feed)
     def test_main(self):
-        pass
+        with patch('H5_News_Tracker.controller.main.build_rss_ticker') as mocked_ticker:
+            mocked_ticker.return_value = 'ticker'
+            self.assertIsNotNone(main.build_rss_ticker())
 
     def test_cycle(self):
         pass
