@@ -19,6 +19,8 @@ class TickerWindow:
         "Blue",
     ]
 
+    myCombo_bg = ttk.Combobox(root, value=options)
+
     def __init__(self, master=None, **kw):
         """Initializes the display window for the news ticker"""
         print("constructing gui")
@@ -48,28 +50,22 @@ class TickerWindow:
         # style.configure("GT.TLabel", foreground="#4caf50")
         style.configure("BBg.TLabel", background="#2196f3")
         # style.configure("BT.TLabel", foreground="#2196f3")
-        # self.label_ticker.configure(style="WB.TLabel")
+        # self.label_ticker.configure(style="GBg.TLabel")
         self.button_exit.configure(style="BR.TLabel")
         # self.menu.configure(style="WB.TLabel")
 
     def combo_click_bg(self):
-        if self.myCombo_bg.get() == 'Red':
-            self.label_ticker.configure(background="f44336")
+        if self.myCombo_bg.get() == "Red":
+            self.label_ticker.configure(style="RBg.TLabel")
 
-        elif self.myCombo_bg.get() == 'Green':
-            self.label_ticker.configure(background="4caf50")
+        elif self.myCombo_bg.get() == "Green":
+            self.label_ticker.configure(style="GBg.TLabel")
 
-        elif self.myCombo_bg.get() == 'Blue':
-            self.label_ticker.configure(background="2196f3")
+        elif self.myCombo_bg.get() == "Blue":
+            self.label_ticker.configure(style="BBg.TLabel")
 
-        elif self.myCombo_bg.get() == 'Default':
-            self.label_ticker.configure(background="4caf50")
-
-    myCombo_bg = ttk.Combobox(root, value=options)
-    myCombo_bg.current()  # shows the current value
-
-    myCombo_bg.bind("<<ComboboxSelected>>", combo_click_bg)
-    myCombo_bg.pack()
+        elif self.myCombo_bg.get() == "Default":
+            self.label_ticker.configure(style="default.TLabel")
 
     def build(self):
         """Sets organization for label and exit button"""
@@ -77,6 +73,7 @@ class TickerWindow:
         self.myCombo_bg.grid(row=10, column=0)
         self.label_ticker.grid(row=0, column=0)
         self.button_exit.grid(row=0, column=10)
+        self.myCombo_bg.bind("<<ComboboxSelected>>", self.combo_click_bg())
 
     def update(self, headline, url):
         print("updating ticker to headline: ", headline, "   url: ", url)
