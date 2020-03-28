@@ -2,20 +2,15 @@
 Program displays a window with text using Tkinter when run.
 """
 import tkinter
-import sys
-import os
 import webbrowser
 from tkinter import ttk
-
-if os.environ.get('DISPLAY','') == '':
-    print('no display found. Using :0.0')
-    os.environ.__setitem__('DISPLAY', ':0.0')
 
 
 class TickerWindow:
     """Main Object for creating and running the news ticker gui"""
 
     root = tkinter.Tk()
+
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
     updating_feed = []

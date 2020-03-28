@@ -2,7 +2,7 @@
 import unittest
 import threading
 import time
-from mock import Mock
+from unittest.mock import Mock
 from H5_News_Tracker.controller import main
 
 
