@@ -5,7 +5,7 @@ import feedparser
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
-CYCLE_TIME = 7  # in seconds
+CYCLE_TIME = 2  # in seconds
 
 
 def build_rss_ticker(**kw):
@@ -24,18 +24,21 @@ def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
 
-    for i in range(0, len(library)):
-        ticker.update(library[i][0], library[i][1])
-        time.sleep(CYCLE_TIME)
+    while True:
+        for i in range(0, len(library)):
+            ticker.update(library[i][0], library[i][1])
+            time.sleep(CYCLE_TIME)
 
 
 def build_library(feed):
     """puts headlines and associated urls into a list"""
+    print("building library...")
     library = []
     for i in range(0, len(feed.entries)):
         item = feed.entries[i]
         lib_item = [item.title, item.link]
         library.append(lib_item)
+    print(library)
     return library
 
 
