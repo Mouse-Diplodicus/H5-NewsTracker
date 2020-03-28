@@ -53,8 +53,8 @@ def pull_feed(feed_url):
     else:
         # Handle target environment that doesn't support HTTPS verification
         ssl._create_default_https_context = _create_unverified_https_context
-    #print(feedparser.parse(feed_url))
-    #print(type(feedparser.parse(feed_url)))
+    # print(feedparser.parse(feed_url))
+    # print(type(feedparser.parse(feed_url)))
     return feedparser.parse(feed_url)
 
 

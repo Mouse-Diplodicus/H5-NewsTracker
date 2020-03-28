@@ -10,7 +10,6 @@ from H5_News_Tracker.controller import main
 
 
 class TestMain(unittest.TestCase):
-
     mocked_pull_feed = MagicMock()
     mocked_build_library = MagicMock()
 
@@ -21,11 +20,9 @@ class TestMain(unittest.TestCase):
             mocked_ticker.return_value = 'ticker'
             self.assertIsNotNone(main.build_rss_ticker())
 
-            
     def test_cycle(self):
         pass
 
-      
     def test_build_library(self):
         item = MagicMock()
         item.title = 'test title'
@@ -52,7 +49,6 @@ class TestMain(unittest.TestCase):
     def test_pull_feed(self):
         pass
 
-
     def test_cycle(self):
         """Unit test for the cycle method
         When Cycle is run:
@@ -60,7 +56,8 @@ class TestMain(unittest.TestCase):
         """
         # Arrange
         mock_ticker = Mock()
-        test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"], ["headline_2", "https://test_2.com"]]
+        test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"],
+                    ["headline_2", "https://test_2.com"]]
         test_thread = threading.Thread(target=main.cycle, args=[mock_ticker, test_lib], name="Test-Cycle-Thread")
 
         try:
@@ -68,7 +65,7 @@ class TestMain(unittest.TestCase):
             test_thread.start()
 
             # Assert
-            time.sleep(main.CYCLE_TIME/2)
+            time.sleep(main.CYCLE_TIME / 2)
             mock_ticker.update.assert_called_with(test_lib[0][0], test_lib[0][1])
             time.sleep(main.CYCLE_TIME)
             mock_ticker.update.assert_called_with(test_lib[1][0], test_lib[1][1])
