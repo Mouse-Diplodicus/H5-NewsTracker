@@ -53,17 +53,17 @@ class TickerWindow:
         # self.menu.configure(style="WB.TLabel")
 
     def combo_click_bg(self):
-        if self.combo_click_bg().get() == 'Red':
-            self.label_ticker.configure(style="RBg.TLabel")
+        if self.myCombo_bg.get() == 'Red':
+            self.label_ticker.configure(background="f44336")
 
-        elif self.combo_click_bg().get() == 'Green':
-            self.label_ticker.configure(style="GBg.TLabel")
+        elif self.myCombo_bg.get() == 'Green':
+            self.label_ticker.configure(background="4caf50")
 
-        elif self.combo_click_bg().get() == 'Blue':
-            self.label_ticker.configure(style="BBg.TLabel")
+        elif self.myCombo_bg.get() == 'Blue':
+            self.label_ticker.configure(background="2196f3")
 
-        elif self.combo_click_bg().get() == 'Default':
-            self.label_ticker.configure(style="default.TLabel")
+        elif self.myCombo_bg.get() == 'Default':
+            self.label_ticker.configure(background="4caf50")
 
     myCombo_bg = ttk.Combobox(root, value=options)
     myCombo_bg.current()  # shows the current value
