@@ -44,7 +44,11 @@ class TestMain(unittest.TestCase):
         self.assertEqual(library[2][1], None)
 
     def test_pull_feed(self):
-        pass
+        ssl = MagicMock()
+        ssl._create_default_https_context = 'fake url'
+        feed_url = ssl._create_default_https_context
+        main.pull_feed(feed_url)
+        self.assertEqual(feed_url, 'fake url')
 
     def test_cycle(self):
         """Unit test for the cycle method
