@@ -20,9 +20,6 @@ class TestMain(unittest.TestCase):
             mocked_ticker.return_value = 'ticker'
             self.assertIsNotNone(main.build_rss_ticker())
 
-    def test_cycle(self):
-        pass
-
     def test_build_library(self):
         item = MagicMock()
         item.title = 'test title'

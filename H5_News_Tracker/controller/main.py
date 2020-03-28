@@ -27,8 +27,8 @@ def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
     while True:
-        for i, item in enumerate(library):
-            ticker.update(library[i][0], library[i][1])
+        for item in library:
+            ticker.update(item[0], item[1])
             time.sleep(CYCLE_TIME)
 
 
