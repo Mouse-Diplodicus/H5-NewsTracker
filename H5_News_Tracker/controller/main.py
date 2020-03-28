@@ -1,7 +1,3 @@
-"""
-Reused code on StackOverFlow
-https://stackoverflow.com/questions/49362820/update-rss-feed-every-2-minutes
-"""
 import ssl
 import threading
 import time
@@ -12,7 +8,7 @@ from H5_News_Tracker.gui import ticker_window
 CYCLE_TIME = 2  # in seconds
 
 
-def main():
+def build_rss_ticker(**kw):
     """Uses ticker_window to show the google news feed"""
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
@@ -27,19 +23,18 @@ def main():
 def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
-    count = len(library)
-    # while True:
-    for i in range(0, count):
-        ticker.update(library[i][0], library[i][1])
-        time.sleep(CYCLE_TIME)
+
+    while True:
+        for i in range(0, len(library)):
+            ticker.update(library[i][0], library[i][1])
+            time.sleep(CYCLE_TIME)
 
 
 def build_library(feed):
     """puts headlines and associated urls into a list"""
     print("building library...")
     library = []
-    count = len(feed.entries)
-    for i in range(0, count):
+    for i in range(0, len(feed.entries)):
         item = feed.entries[i]
         lib_item = [item.title, item.link]
         library.append(lib_item)
@@ -58,9 +53,11 @@ def pull_feed(feed_url):
     else:
         # Handle target environment that doesn't support HTTPS verification
         ssl._create_default_https_context = _create_unverified_https_context
+    #print(feedparser.parse(feed_url))
+    #print(type(feedparser.parse(feed_url)))
     return feedparser.parse(feed_url)
 
 
 if __name__ == '__main__':
     print("Program starting")
-    main()
+    build_rss_ticker()
