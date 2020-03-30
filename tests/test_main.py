@@ -15,7 +15,7 @@ class TestMain(unittest.TestCase):
         with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
             with patch('H5_News_Tracker.controller.main.build_library') as mocked_build_library:
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
-                    with patch('threading.Thread') as mocked_thread:
+                    with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
                         main.build_rss_ticker()
                         mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
                         mocked_build_library.assert_called_with(mocked_pull_feed('https://news.google.com/news/rss'))
