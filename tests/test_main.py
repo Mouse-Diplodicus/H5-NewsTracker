@@ -3,22 +3,20 @@ import unittest
 import threading
 import time
 import feedparser
-from unittest.mock import Mock
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
 
 
 class TestMain(unittest.TestCase):
-    mocked_pull_feed = MagicMock()
-    mocked_build_library = MagicMock()
 
-    # @patch('main.build_library()', mocked_build_library)
-    # @patch('main.pull_feed()', mocked_pull_feed)
-    def test_main(self):
-        with patch('H5_News_Tracker.controller.main.build_rss_ticker') as mocked_ticker:
-            mocked_ticker.return_value = 'ticker'
-            self.assertIsNotNone(main.build_rss_ticker())
+    def test_build_rss_ticker(self):
+
+        with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
+            main.build_rss_ticker()
+            mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
+
+
 
     def test_build_library(self):
         item = MagicMock()
@@ -56,7 +54,7 @@ class TestMain(unittest.TestCase):
         *
         """
         # Arrange
-        mock_ticker = Mock()
+        mock_ticker = MagicMock()
         test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"],
                     ["headline_2", "https://test_2.com"]]
         test_thread = threading.Thread(target=main.cycle, args=[mock_ticker, test_lib], name="Test-Cycle-Thread")
