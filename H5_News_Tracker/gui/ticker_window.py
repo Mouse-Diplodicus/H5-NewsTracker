@@ -2,7 +2,6 @@
 Program displays a window with text using Tkinter when run.
 """
 import tkinter
-import tkinter as tk
 import webbrowser
 from tkinter import ttk
 from tkinter.ttk import OptionMenu
@@ -10,8 +9,6 @@ from tkinter.ttk import OptionMenu
 
 class TickerWindow:
     root = tkinter.Tk()
-
-    menubar = tk.Menu(root)
 
     var = tkinter.StringVar(root)
     var.set('Select')
@@ -53,15 +50,13 @@ class TickerWindow:
         print("setting styling")
         style = ttk.Style()
         style.configure("default.TLabel", foreground="#000000", background="#ffffff")
-        style.configure("black.TLabel", foreground="#ffffff", background="#000000")
         style.configure("WB.TLabel", foreground="#ffffff", background="#000000")
         style.configure("BR.TLabel", foreground="#000000", background="#931113")
         # self.label_ticker.configure(style="WB.TLabel")
         self.button_exit.configure(style="BR.TLabel")
         # self.menu.configure(style="WB.TLabel")
         if self.choices == 'Black':
-            self.label_ticker.configure(style="black")
-
+            style.configure(background='black')
 
     def build(self):
         """Sets organization for label and exit button"""
@@ -74,15 +69,3 @@ class TickerWindow:
         print("updating ticker to headline: ", headline, "   url: ", url)
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
-
-    editmenu = tk.Menu(menubar, tearoff=0, foreground="black")
-    editmenu.add_cascade(label="Text settings")
-
-    text_setting = tk.Menu(editmenu)
-    editmenu.add_command(label="Text Color")
-
-    editmenu.add_cascade(label="Background settings", command=background)
-    menubar.add_cascade(menu=editmenu, label="Edit")
-
-
-    root.config(menu=menubar)
