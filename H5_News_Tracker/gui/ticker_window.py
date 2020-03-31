@@ -2,6 +2,7 @@
 Program displays a window with text using Tkinter when run.
 """
 import tkinter
+import tkinter as tk
 import webbrowser
 from tkinter import ttk
 from tkinter.ttk import OptionMenu
@@ -9,6 +10,8 @@ from tkinter.ttk import OptionMenu
 
 class TickerWindow:
     root = tkinter.Tk()
+
+    menubar = tk.Menu(root)
 
     var = tkinter.StringVar(root)
     var.set('Select')
@@ -69,3 +72,12 @@ class TickerWindow:
         print("updating ticker to headline: ", headline, "   url: ", url)
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
+
+    editmenu = tk.Menu(menubar, tearoff=0, foreground="black")
+    editmenu.add_cascade(label="Text settings")
+
+    editmenu.add_cascade(label="Background settings", command=background)
+    menubar.add_cascade(menu=editmenu, label="Edit")
+
+
+    root.config(menu=menubar)
