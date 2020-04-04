@@ -29,9 +29,9 @@ class TickerWindow:
     def start(self):
         """Start gui main update loop """
         print("starting main loop")
-        while time.sleep(2):
-            self.root.mainloop()
-        self.root.destroy()
+        # while time.sleep(2):
+        self.root.update()
+        # self.root.destroy()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
