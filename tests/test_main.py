@@ -2,7 +2,6 @@
 import unittest
 import threading
 import time
-import feedparser
 from unittest.mock import Mock
 from unittest.mock import MagicMock
 from unittest.mock import patch

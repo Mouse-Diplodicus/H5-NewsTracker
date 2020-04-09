@@ -13,11 +13,17 @@
   <link href="https://news.google.com/?hl=en-US&gl=US&ceid=US:en" rel="alternate" type="text/html"/>
   <rights>2020 Google Inc.</rights>
   <entry>
-<id>...</id>
-<title type="html">...</title>
-<updated>2020-04-08T22:58:07.000000000Z</updated>
-<link href="https://news.google.com/__i/rss/rd/articles/CBMiTGh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMjAvMDQvMDgvdXMvcG9saXRpY3MvYmVybmllLXNhbmRlcnMtZHJvcHMtb3V0Lmh0bWzSAVBodHRwczovL3d3dy5ueXRpbWVzLmNvbS8yMDIwLzA0LzA4L3VzL3BvbGl0aWNzL2Jlcm5pZS1zYW5kZXJzLWRyb3BzLW91dC5hbXAuaHRtbA?oc=5" type="text/html"/>
-<content type="html">...</content>
-</entry>
-  <entry>...</entry>
+    <id>https://news.google.com/stories/CAAqeggKInRDQklTVVRvSmMzUnZjbmt0TXpZd1NrUUtFUWpiMllxN2o0QU1FZThYcHhqS01LWFhFaTlDWlhKdWFXVWdVMkZ1WkdWeWN5QmtjbTl3Y3lCdmRYUWdiMllnZEdobElFUmxiVzlqY21GMGFXTWdjbUZqWlNnQVAB?oc=5</id>
+    <title type="html">Bernie Sanders Drops Out of 2020 Democratic Race for President - The New York Times</title>
+    <updated>2020-04-08T22:58:07.000000000Z</updated>
+    <link href="https://news.google.com/__i/rss/rd/articles/CBMiTGh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMjAvMDQvMDgvdXMvcG9saXRpY3MvYmVybmllLXNhbmRlcnMtZHJvcHMtb3V0Lmh0bWzSAVBodHRwczovL3d3dy5ueXRpbWVzLmNvbS8yMDIwLzA0LzA4L3VzL3BvbGl0aWNzL2Jlcm5pZS1zYW5kZXJzLWRyb3BzLW91dC5hbXAuaHRtbA?oc=5" type="text/html"/>
+    <content type="html">Bernie Sanders' campaign changed Democrats for the better</content>
+    </entry>
+  <entry>
+    <id>https://news.google.com/stories/CAAqOQgKIjNDQklTSURvSmMzUnZjbmt0TXpZd1NoTUtFUWotMGJHOWo0QU1FVFNYMFhqU2Jhb05LQUFQAQ?oc=5</id>
+    <title type="html">New York Gov. Cuomo says state won't return to 'normal' as daily coronavirus deaths reach new high - CNBC</title>
+    <updated>2020-04-08T20:56:05.000000000Z</updated>
+    <link href="https://news.google.com/__i/rss/rd/articles/CBMigwFodHRwczovL3d3dy5jbmJjLmNvbS8yMDIwLzA0LzA4L25ldy15b3JrLWdvdi1jdW9tby1zYXlzLXN0YXRlLXdvbnQtcmV0dXJuLXRvLW5vcm1hbC1hcy1kYWlseS1jb3JvbmF2aXJ1cy1kZWF0aHMtcmVhY2gtbmV3LWhpZ2guaHRtbNIBhwFodHRwczovL3d3dy5jbmJjLmNvbS9hbXAvMjAyMC8wNC8wOC9uZXcteW9yay1nb3YtY3VvbW8tc2F5cy1zdGF0ZS13b250LXJldHVybi10by1ub3JtYWwtYXMtZGFpbHktY29yb25hdmlydXMtZGVhdGhzLXJlYWNoLW5ldy1oaWdoLmh0bWw?oc=5" type="text/html"/>
+    <content type="html">Tucker Carlson: We must ask the experts how they screwed up the coronavirus models so badly</content>
+  </entry>
 </feed>

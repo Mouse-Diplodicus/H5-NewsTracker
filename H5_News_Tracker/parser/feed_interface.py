@@ -4,6 +4,7 @@ of headline and associated url pairs.
 """
 from urllib.request import urlopen
 import ssl
+import os
 from bs4 import BeautifulSoup
 
 
@@ -12,9 +13,7 @@ def parse(feed_url):
     The parse function accepts a url of an RSS or ATOM feed and will return a list consisting of headline and
     associated url pairs.
     """
-
-    print(ssl.get_default_verify_paths())
-    xml_url_to_parse = urlopen(feed_url)
+    xml_url_to_parse = urlopen(feed_url, cafile="certs.pem")
     xml_page = xml_url_to_parse.read()
     xml_url_to_parse.close()
     return build_library(BeautifulSoup(xml_page, "xml"))
