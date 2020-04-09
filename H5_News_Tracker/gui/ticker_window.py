@@ -34,7 +34,7 @@ class TickerWindow:
         print("starting main loop")
         self.root.mainloop()
 
-    def start(self, timer):
+    def start_with_timer(self, timer):
         """Start gui main update loop with timer"""
         print("starting main loop")
         self.root.mainloop()

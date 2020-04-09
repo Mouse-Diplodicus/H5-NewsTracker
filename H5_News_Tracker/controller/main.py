@@ -21,7 +21,7 @@ def build_rss_ticker(urls, **kw):
     print("Starting Threads:")
     news_cycle_thread.start()
     if __name__ != '__main__':
-        ticker.start(3)
+        ticker.start_with_timer(3)
     else:
         ticker.start()
     print("when do we get here?")
