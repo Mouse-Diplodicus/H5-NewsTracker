@@ -8,7 +8,7 @@ from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
-CYCLE_TIME = 7  # in seconds
+CYCLE_TIME = 2  # in seconds
 
 
 def build_rss_ticker(urls, **kw):
@@ -20,17 +20,23 @@ def build_rss_ticker(urls, **kw):
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
     news_cycle_thread.start()
-    ticker.start()
+    if __name__ != '__main__':
+        ticker.start(3)
+    else:
+        ticker.start()
     print("when do we get here?")
 
 
 def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
-    while True:
+    run = True
+    while run:
         for item in library:
             ticker.update(item[0], item[1])
             time.sleep(CYCLE_TIME)
+            if __name__ != '__main__':
+                run = False
 
 
 if __name__ == '__main__':

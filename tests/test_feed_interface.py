@@ -7,7 +7,7 @@ from H5_News_Tracker.parser import feed_interface
 class TestFeedInterface(unittest.TestCase):
 
     def test_build_library(self):
-        with open("sample_rss_feed.xml") as test_xml:
+        with open("tests/sample_rss_feed.xml") as test_xml:
             soup = BeautifulSoup(test_xml, "xml")
         result = feed_interface.build_library(soup)
         self.assertEqual(result[0][0],
@@ -19,7 +19,7 @@ class TestFeedInterface(unittest.TestCase):
         self.assertEqual(result[1][1],
                          "https://news.google.com/__i/rss/rd/articles/CBMigwFodHRwczovL3d3dy5jbmJjLmNvbS8yMDIwLzA0LzA4L25ldy15b3JrLWdvdi1jdW9tby1zYXlzLXN0YXRlLXdvbnQtcmV0dXJuLXRvLW5vcm1hbC1hcy1kYWlseS1jb3JvbmF2aXJ1cy1kZWF0aHMtcmVhY2gtbmV3LWhpZ2guaHRtbNIBhwFodHRwczovL3d3dy5jbmJjLmNvbS9hbXAvMjAyMC8wNC8wOC9uZXcteW9yay1nb3YtY3VvbW8tc2F5cy1zdGF0ZS13b250LXJldHVybi10by1ub3JtYWwtYXMtZGFpbHktY29yb25hdmlydXMtZGVhdGhzLXJlYWNoLW5ldy1oaWdoLmh0bWw?oc=5")
 
-        with open("sample_atom_feed.xml") as test_xml:
+        with open("tests/sample_atom_feed.xml") as test_xml:
             soup = BeautifulSoup(test_xml, "xml")
         result = feed_interface.build_library(soup)
         self.assertEqual(result[0][0],

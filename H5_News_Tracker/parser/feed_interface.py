@@ -36,8 +36,3 @@ def build_library(soup_page):
             lib_item = [item.title.text, item.link.text]
             library.append(lib_item)
     return library
-
-
-if __name__ == '__main__':
-    print(parse('https://news.google.com/news/atom'))
-    print(parse('https://news.google.com/news/rss'))

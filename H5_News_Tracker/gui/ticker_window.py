@@ -3,6 +3,7 @@ Program displays a window with text using Tkinter when run.
 """
 import tkinter
 import webbrowser
+import time
 from tkinter import ttk
 from tkinter import font
 
@@ -32,6 +33,13 @@ class TickerWindow:
         """Start gui main update loop """
         print("starting main loop")
         self.root.mainloop()
+
+    def start(self, timer):
+        """Start gui main update loop with timer"""
+        print("starting main loop")
+        self.root.mainloop()
+        time.sleep(timer)
+        self.root.quit()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
