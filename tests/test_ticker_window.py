@@ -8,6 +8,27 @@ import webbrowser
 
 class TestTickerWindow(unittest.TestCase):
 
+    def test_init(self):
+        """Testing the TickerWindow __init__ function"""
+        with patch('tkinter.Tk') as mocked_ticker:
+            with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
+                with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
+                    with patch('H5_News_Tracker.gui.ticker_window.TickerWindow.set_style') as mocked_set_style:
+                        with patch('H5_News_Tracker.gui.ticker_window.TickerWindow.build') as mocked_build:
+                            mock_root = mocked_ticker()
+                            app = ticker_window.TickerWindow(master=mock_root)
+                            test_label = mock_label(mock_root)
+                            test_button = mock_button(mock_root)
+                            app.__init__()
+
+                            test_label.assert_has_calls(test_label.configure(width=70, padding=[0, -1, 0, -1]))
+                            test_button.assert_has_calls(test_button.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit))
+                            mock_root.assert_has_calls(mock_root.overrideredirect(1))
+                            mocked_set_style.assert_any_call()
+                            mocked_build.assert_any_call()
+
+
+
     def test_start(self):
         """Testing the TickerWindow Function start()"""
         with patch('tkinter.Tk') as mocked_ticker:
@@ -56,6 +77,7 @@ class TestTickerWindow(unittest.TestCase):
             root = tkinter.Tk()
             app = ticker_window.TickerWindow(master=root)
             test_label = mock_label(root)
+
             app.update(headline, url)
             test_label.assert_has_calls(test_label.configure('test headline'),
                                         test_label.bind("<Button-1>", lambda e: webbrowser.open_new('testurl.com')))

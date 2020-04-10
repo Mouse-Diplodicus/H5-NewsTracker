@@ -17,8 +17,8 @@ class TickerWindow(tkinter.Frame):
         print("constructing gui")
         super().__init__(master)
         self.master = master
-        self. label_ticker = ttk.Label(master)
-        self. button_exit = ttk.Button(master)
+        self.label_ticker = ttk.Label(master)
+        self.button_exit = ttk.Button(master)
         self.master.overrideredirect(1)
         self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
         self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit)
