@@ -7,21 +7,21 @@ from tkinter import ttk
 import time
 
 
-class TickerWindow:
+class TickerWindow(tkinter.Frame):
     """Main Object for creating and running the news ticker gui"""
 
-    root = tkinter.Tk()
-
-    label_ticker = ttk.Label(root)
-    button_exit = ttk.Button(root)
     updating_feed = []
 
-    def __init__(self):
+    def __init__(self, master=None):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
-        self.root.overrideredirect(1)
+        super().__init__(master)
+        self.master = master
+        self. label_ticker = ttk.Label(master)
+        self. button_exit = ttk.Button(master)
+        self.master.overrideredirect(1)
         self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
-        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.root.quit)
+        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit)
         self.set_style()
         self.build()
         print("Gui constructed")
@@ -30,7 +30,7 @@ class TickerWindow:
         """Start gui main update loop """
         print("starting main loop")
         # while time.sleep(2):
-        self.root.update()
+        self.master.mainloop()
         # self.root.destroy()
 
     def set_style(self):

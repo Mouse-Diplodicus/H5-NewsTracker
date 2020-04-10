@@ -5,6 +5,7 @@ import ssl
 import threading
 import time
 import feedparser
+import tkinter
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
@@ -15,7 +16,8 @@ def build_rss_ticker(**kw):
     """Uses ticker_window to show the google news feed"""
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
-    ticker = ticker_window.TickerWindow()
+    root = tkinter.Tk()
+    ticker = ticker_window.TickerWindow(master=root)
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
     news_cycle_thread.start()
