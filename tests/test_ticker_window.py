@@ -10,16 +10,15 @@ from H5_News_Tracker.controller import main
 class TestTickerWindow(unittest.TestCase):
 
     def test_start(self):
-        with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker:
-            with patch('H5_News_Tracker.gui.ticker_window.TickerWindow.start') as mocked_start:
-                pass
-                # test_root = tkinter.Tk()
-                #test_ticker = mocked_ticker(master=test_root)
-                # mocked_ticker.mocked_start()
+        with patch('tkinter.Tk') as mocked_ticker:
+            mock_root = mocked_ticker()
+            app = ticker_window.TickerWindow(master=mock_root)
+            app.start()
+            mock_root.assert_has_calls(mock_root.mainloop())
 
     def test_set_style(self):
         with patch('tkinter.ttk.Style', new_callable=PropertyMock) as mock_style:
-            with patch ('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
+            with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
                 with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
                     root = tkinter.Tk()
                     app = ticker_window.TickerWindow(master=root)
@@ -33,12 +32,17 @@ class TestTickerWindow(unittest.TestCase):
                     test_button.assert_has_calls(test_button.configure(style="Exit.TLabel"))
 
     def test_build(self):
-        with patch('H5_News_Tracker.gui.ticker_window.tkinter') as mocked_tkinter:
-            pass
-            # self.mocked_root = mocked_tkinter.Tk()
-            # self.mocked_label = ttk.Label(self.mocked_root)
-            # main.build_rss_ticker()
-            # self.mocked_label.grid.assert_called_with(row=0, column=0)
+        with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
+            with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
+                root = tkinter.Tk()
+                app = ticker_window.TickerWindow(master=root)
+                test_label = mock_label(root)
+                test_button = mock_button(root)
+                app.build()
+                test_label.assert_has_calls(test_label.grid(row=0, column=0))
+                test_button.assert_has_calls(test_button.grid(row=0, column=1))
+
+
 
     def test_update(self):
         with patch('H5_News_Tracker.gui.ticker_window.tkinter') as mocked_tkinter:
