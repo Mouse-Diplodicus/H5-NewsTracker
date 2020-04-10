@@ -22,12 +22,10 @@ class TestTickerWindow(unittest.TestCase):
                             app.__init__()
 
                             test_label.assert_has_calls(test_label.configure(width=70, padding=[0, -1, 0, -1]))
-                            test_button.assert_has_calls(test_button.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit))
+                            test_button.assert_has_calls(test_button.configure(text="X", padding=[2, -1, 2, -1], command=mock_root.quit))
                             mock_root.assert_has_calls(mock_root.overrideredirect(1))
                             mocked_set_style.assert_any_call()
                             mocked_build.assert_any_call()
-
-
 
     def test_start(self):
         """Testing the TickerWindow Function start()"""

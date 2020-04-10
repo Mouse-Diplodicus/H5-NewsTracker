@@ -4,7 +4,6 @@ Program displays a window with text using Tkinter when run.
 import tkinter
 import webbrowser
 from tkinter import ttk
-import time
 
 
 class TickerWindow(tkinter.Frame):
@@ -29,9 +28,7 @@ class TickerWindow(tkinter.Frame):
     def start(self):
         """Start gui main update loop """
         print("starting main loop")
-        # while time.sleep(2):
         self.master.mainloop()
-        # self.root.destroy()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
