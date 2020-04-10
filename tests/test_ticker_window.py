@@ -2,14 +2,14 @@ import unittest
 from unittest.mock import patch
 from unittest.mock import PropertyMock
 import tkinter
-from tkinter import ttk
 from H5_News_Tracker.gui import ticker_window
-from H5_News_Tracker.controller import main
+import webbrowser
 
 
 class TestTickerWindow(unittest.TestCase):
 
     def test_start(self):
+        """Testing the TickerWindow Function start()"""
         with patch('tkinter.Tk') as mocked_ticker:
             mock_root = mocked_ticker()
             app = ticker_window.TickerWindow(master=mock_root)
@@ -17,6 +17,7 @@ class TestTickerWindow(unittest.TestCase):
             mock_root.assert_has_calls(mock_root.mainloop())
 
     def test_set_style(self):
+        """Testing the TickerWindow Function set_style()"""
         with patch('tkinter.ttk.Style', new_callable=PropertyMock) as mock_style:
             with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
                 with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
@@ -32,6 +33,7 @@ class TestTickerWindow(unittest.TestCase):
                     test_button.assert_has_calls(test_button.configure(style="Exit.TLabel"))
 
     def test_build(self):
+        """Testing the TickerWindow Function build()"""
         with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
             with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
                 root = tkinter.Tk()
@@ -42,13 +44,24 @@ class TestTickerWindow(unittest.TestCase):
                 test_label.assert_has_calls(test_label.grid(row=0, column=0))
                 test_button.assert_has_calls(test_button.grid(row=0, column=1))
 
-
-
     def test_update(self):
-        with patch('H5_News_Tracker.gui.ticker_window.tkinter') as mocked_tkinter:
+        """Testing the TickerWindow Function update()"""
+        with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
             headline = 'test headline'
+            headline1 = ""
+            headline2 = None
             url = 'testurl.com'
-            # mocked_root = mocked_tkinter.Tk()
-            # mocked_label = ttk.Label(mocked_root)
-            # mocked_label.configure.assert_called_with(text=headline)
-            # mocked_label.configure.assert_called_with("<Button-1>", lambda e: webbrowser.open_new(url))
+            url1 = ""
+            url2 = None
+            root = tkinter.Tk()
+            app = ticker_window.TickerWindow(master=root)
+            test_label = mock_label(root)
+            app.update(headline, url)
+            test_label.assert_has_calls(test_label.configure('test headline'),
+                                        test_label.bind("<Button-1>", lambda e: webbrowser.open_new('testurl.com')))
+            app.update(headline1, url1)
+            test_label.assert_has_calls(test_label.configure(""),
+                                        test_label.bind("<Button-1>", lambda e: webbrowser.open_new("")))
+            app.update(headline2, url2)
+            test_label.assert_has_calls(test_label.configure(None),
+                                        test_label.bind("<Button-1>", lambda e: webbrowser.open_new(None)))
