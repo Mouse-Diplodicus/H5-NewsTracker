@@ -1,31 +1,36 @@
 """Tests for main.py"""
-import unittest
 import threading
 import time
-from unittest.mock import Mock
+import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
+
 from H5_News_Tracker.controller import main
+from H5_News_Tracker.gui import ticker_window
 
 
 class TestMain(unittest.TestCase):
-    mocked_pull_feed = MagicMock()
-    mocked_build_library = MagicMock()
 
-    # @patch('main.build_library()', mocked_build_library)
-    # @patch('main.pull_feed()', mocked_pull_feed)
     def test_build_rss_ticker(self):
-        with patch('H5_News_Tracker.controller.main.build_rss_ticker') as mocked_ticker:
-            mocked_ticker.return_value = 'ticker'
-            self.assertIsNotNone(main.build_rss_ticker())
+        """Testing the build_rss_ticker function """
+        with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
+            with patch('H5_News_Tracker.controller.main.build_library') as mocked_build_library:
+                with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
+                    with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
+                        main.build_rss_ticker()
+                        mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
+                        mocked_build_library.assert_called_with(mocked_pull_feed('https://news.google.com/news/rss'))
+                        mocked_ticker_window.assert_any_call()
+                        # mocked_thread.assert_any_call()
+                        mocked_ticker_window.assert_has_calls(ticker_window.TickerWindow.start())
 
     def test_cycle(self):
-        """Unit test for the cycle method
-        When Cycle is run:
-        *
         """
-        # Arrange
-        mock_ticker = Mock()
+        Unit test for the cycle method
+        When Cycle is run: it should call the update() function on the ticker it is passed after the Cycle_time
+        has passed
+        """
+        mock_ticker = MagicMock()
         test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"],
                     ["headline_2", "https://test_2.com"]]
         test_thread = threading.Thread(target=main.cycle, args=[mock_ticker, test_lib], name="Test-Cycle-Thread")

@@ -1,28 +1,31 @@
 """
 Program displays a window with text using Tkinter when run.
 """
+import time
 import tkinter
 import webbrowser
-import time
-from tkinter import ttk
 from tkinter import font
+from tkinter import ttk
 
 
-class TickerWindow:
+class TickerWindow(tkinter.Frame):
     """Main Object for creating and running the news ticker gui"""
 
     max_label_width = 80
     font_size = 12
+    updating_feed = []
 
-    def __init__(self):
+    def __init__(self, master=None):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
-        self.root = tkinter.Tk()
-        self.label_ticker = ttk.Label(self.root)
-        self.button_exit = ttk.Button(self.root)
-        self.root.overrideredirect(1)
-        self.label_ticker.configure(padding=[0, -1, 0, -1])
-        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.root.quit)
+
+        super().__init__(master)
+        self.master = master
+        self.label_ticker = ttk.Label(master)
+        self.button_exit = ttk.Button(master)
+        self.master.overrideredirect(1)
+        self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
+        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit)
         self.set_style()
         self.default_font = font.nametofont("TkDefaultFont")
         self.default_font.configure(size=self.font_size)
@@ -32,7 +35,7 @@ class TickerWindow:
     def start(self):
         """Start gui main update loop """
         print("starting main loop")
-        self.root.mainloop()
+        self.master.mainloop()
 
     def start_with_timer(self, timer):
         """Start gui main update loop with timer"""

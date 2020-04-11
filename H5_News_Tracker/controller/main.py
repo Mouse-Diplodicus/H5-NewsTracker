@@ -3,11 +3,12 @@ A Program that displays news feeds in a ticker window
 """
 import threading
 import time
+import tkinter
 from H5_News_Tracker.parser import feed_interface
-from H5_News_Tracker.gui import ticker_window
+from H5_News_Tracker.gui.ticker_window import TickerWindow
 
 # Constants
-CYCLE_TIME = 7  # in seconds
+CYCLE_TIME = 2  # in seconds
 
 
 def build_rss_ticker(urls, **kw):
@@ -15,7 +16,8 @@ def build_rss_ticker(urls, **kw):
     library = []
     for url in urls:
         library += feed_interface.build_library(feed_interface.parse(url))
-    ticker = ticker_window.TickerWindow()
+    root = tkinter.Tk()
+    ticker = TickerWindow(master=root)
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
     news_cycle_thread.start()
