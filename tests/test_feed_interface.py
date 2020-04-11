@@ -1,5 +1,4 @@
 import unittest
-import os
 from bs4 import BeautifulSoup
 from H5_News_Tracker.parser import feed_interface
 

@@ -1,7 +1,6 @@
 """
 A Program that displays news feeds in a ticker window
 """
-import ssl
 import threading
 import time
 from H5_News_Tracker.parser import feed_interface
