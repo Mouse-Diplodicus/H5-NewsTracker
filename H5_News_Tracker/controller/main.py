@@ -8,7 +8,7 @@ from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
-CYCLE_TIME = 2  # in seconds
+CYCLE_TIME = 7  # in seconds
 
 
 def build_rss_ticker(urls, **kw):
