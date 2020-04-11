@@ -15,7 +15,7 @@ def build_rss_ticker(urls, **kw):
     """Uses ticker_window to show the news feeds provided by the url argument"""
     library = []
     for url in urls:
-        library += feed_interface.parse(url)
+        library += feed_interface.build_library(feed_interface.parse(url))
     ticker = ticker_window.TickerWindow()
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
@@ -35,8 +35,8 @@ def cycle(ticker, library):
         for item in library:
             ticker.update(item[0], item[1])
             time.sleep(CYCLE_TIME)
-            if __name__ != '__main__':
-                run = False
+        if __name__ != '__main__':
+            run = False
 
 
 if __name__ == '__main__':

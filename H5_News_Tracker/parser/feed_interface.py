@@ -3,20 +3,19 @@ The feed_interface module is responsible for pulling the RSS and ATOM feeds from
 of headline and associated url pairs.
 """
 from urllib.request import urlopen
-import ssl
-import os
 from bs4 import BeautifulSoup
+import ssl
 
 
 def parse(feed_url):
     """
-    The parse function accepts a url of an RSS or ATOM feed and will return a list consisting of headline and
-    associated url pairs.
+    The parse function accepts a url of an RSS or ATOM feed and will return a BeautifulSoup object of the feeds
     """
-    xml_url_to_parse = urlopen(feed_url, cafile="certs.pem")
+    context = ssl.create_default_context()
+    xml_url_to_parse = urlopen(feed_url, context=context)
     xml_page = xml_url_to_parse.read()
     xml_url_to_parse.close()
-    return build_library(BeautifulSoup(xml_page, "xml"))
+    return BeautifulSoup(xml_page, "xml")
 
 
 def build_library(soup_page):
