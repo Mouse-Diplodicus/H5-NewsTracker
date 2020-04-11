@@ -2,6 +2,7 @@
 import unittest
 import threading
 import time
+import tkinter
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
@@ -17,10 +18,12 @@ class TestMain(unittest.TestCase):
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
                     with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
                         main.build_rss_ticker()
+                        root = tkinter.Tk()
+                        # Assertions
                         mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
                         mocked_build_library.assert_called_with(mocked_pull_feed('https://news.google.com/news/rss'))
-                        mocked_ticker_window.assert_any_call()
-                        # mocked_thread.assert_any_call()
+                        mocked_ticker_window.assert_called_with(master=root)
+                        #mocked_thread.assert_called_with(mocked_thread(target=cycle, args=[mocked_ticker_window, mocked_pull_feed], name="News-Cycling-Thread", daemon=True))
                         mocked_ticker_window.assert_has_calls(ticker_window.TickerWindow.start())
 
     def test_build_library(self):
