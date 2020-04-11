@@ -18,9 +18,7 @@ class TickerWindow:
     background = tkinter.StringVar()
     background.set('white')
 
-
     var = tkinter.StringVar(root)
-    # var.set('Select')
     choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
 
     label_ticker = ttk.Label(root)
@@ -55,22 +53,9 @@ class TickerWindow:
         # if self.choices == 'Black':
         #     style.configure(background='black')
 
-    # def background(self, menu, label_ticker):
-    #     if menu == 'Black':
-    #         ttk.Label(style='WB.TLabel')
-    #     elif menu == 'White':
-    #         label_ticker.configure(background='white')
-    #     elif menu == 'Blue':
-    #         label_ticker.configure(background='blue')
-    #     elif menu == 'Pink':
-    #         label_ticker.configure(background='pink')
-    #
-    # menu = OptionMenu(root, var, *choices, command=background)
-
     def build(self):
         """Sets organization for label and exit button"""
         print("organizing gui layout")
-        # self.menu.grid(row=10, column=0)
         self.label_ticker.grid(row=0, column=0)
         self.button_exit.grid(row=0, column=10)
 
