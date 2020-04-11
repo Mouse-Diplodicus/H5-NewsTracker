@@ -19,7 +19,7 @@ class TestTickerWindow(unittest.TestCase):
                             app = ticker_window.TickerWindow(master=mock_root)
                             test_label = mock_label(mock_root)
                             test_button = mock_button(mock_root)
-                            app.__init__()
+                            app.__init__(mock_root)
 
                             test_label.assert_has_calls(test_label.configure(width=70, padding=[0, -1, 0, -1]))
                             test_button.assert_has_calls(test_button.configure(text="X", padding=[2, -1, 2, -1], command=mock_root.quit))

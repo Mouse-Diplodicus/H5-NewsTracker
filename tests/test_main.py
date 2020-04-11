@@ -11,7 +11,7 @@ from H5_News_Tracker.gui import ticker_window
 class TestMain(unittest.TestCase):
 
     def test_build_rss_ticker(self):
-
+        """Testing the build_rss_ticker function """
         with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
             with patch('H5_News_Tracker.controller.main.build_library') as mocked_build_library:
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
@@ -24,6 +24,7 @@ class TestMain(unittest.TestCase):
                         mocked_ticker_window.assert_has_calls(ticker_window.TickerWindow.start())
 
     def test_build_library(self):
+        """Testing the build_library function"""
         item = MagicMock()
         item.title = 'test title'
         item.link = 'http://www.testsite.com'
@@ -47,6 +48,7 @@ class TestMain(unittest.TestCase):
         self.assertEqual(library[2][1], None)
 
     def test_pull_feed(self):
+        """Test the pull_feed function"""
         ssl = MagicMock()
         ssl._create_default_https_context = 'fake url'
         feed_url = ssl._create_default_https_context
