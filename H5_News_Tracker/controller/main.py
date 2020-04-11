@@ -40,5 +40,5 @@ def cycle(ticker, library):
 
 if __name__ == '__main__':
     print("Program starting")
-    urls = ['https://news.google.com/news/rss', 'https://news.google.com/news/atom']
-    build_rss_ticker(urls)
+    URLS = ['https://news.google.com/news/rss', 'https://news.google.com/news/atom']
+    build_rss_ticker(URLS)
