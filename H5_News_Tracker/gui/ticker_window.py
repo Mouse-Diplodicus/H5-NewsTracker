@@ -6,22 +6,23 @@ import tkinter as tk
 import webbrowser
 from tkinter import ttk
 from tkinter.ttk import OptionMenu
+from H5_News_Tracker.gui import color_test
+from H5_News_Tracker.gui.color_test import root, Menu, main_menu
 
 
 class TickerWindow:
     root = tkinter.Tk()
-    root.overrideredirect(True)  # Delete border
 
+    main_menu = tk.Menu(root)
     menu_bar = tk.Menu(root)
-    textColor = tkinter.StringVar()
-    textColor.set('black')
-    background = tkinter.StringVar()
-    background.set('white')
-
+    # textColor = tkinter.StringVar()
+    # textColor.set('white')
+    # background = tkinter.StringVar()
+    # background.set('black')
 
     var = tkinter.StringVar(root)
     # var.set('Select')
-    choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
+    # choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
 
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
@@ -30,8 +31,8 @@ class TickerWindow:
     def __init__(self, master=None, **kw):
         """Initializes the display window for the news ticker"""
         print("constructing gui")
-        self.root.overrideredirect(1)
-        self.label_ticker.configure(width=8, background='#000000', foreground='#ffffff')
+        self.root.overrideredirect(0) #turn to 1 to delete border
+        self.label_ticker.configure(width=8, background='#ffffff', foreground='#000000')
         self.button_exit.configure(text="X", padding=[2, 0, 2, 0], command=self.root.quit)
         # self.set_style()
         self.build()
@@ -79,21 +80,24 @@ class TickerWindow:
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
 
-    edit_menu = tk.Menu(menu_bar)
+    def build_submenus(self):
+        editMenu = tk.Menu(main_menu)
+        submenu = tk.Menu(editMenu)
 
-    submenu = tk.Menu(edit_menu)
-    submenu.add_command(label="Default")
-    submenu.add_command(label="Red")
-    submenu.add_command(label="Blue")
-    edit_menu.add_cascade(label="Text settings", menu=submenu)
+        submenu.add_command(label="Default", command=color_test.text_update_default)
+        submenu.add_command(label="White", command=color_test.text_update_white)
+        submenu.add_command(label="Red", command=color_test.text_update_red)
+        submenu.add_command(label="Blue", command=color_test.text_update_blue)
+        submenu.add_command(label="Green", command=color_test.text_update_green)
+        editMenu.add_cascade(label="Text settings", menu=submenu)
 
-    submenu2 = tk.Menu(edit_menu)
-    submenu2.add_command(label="Black")
-    submenu2.add_command(label="White")
-    submenu2.add_command(label="Pink")
-    submenu2.add_command(label="Blue")
-    edit_menu.add_cascade(label="Background settings", menu=submenu2)
+        main_menu.add_cascade(label="Edit", menu=editMenu)
 
-    menu_bar.add_cascade(menu=edit_menu, label="Edit")
+        submenu2 = tk.Menu(editMenu)
+        submenu2.add_command(label="Black", command=color_test.bg_update_black)
+        submenu2.add_command(label="White", command=color_test.bg_update_white)
+        submenu2.add_command(label="Pink", command=color_test.bg_update_pink)
+        submenu2.add_command(label="Blue", command=color_test.bg_update_blue)
+        editMenu.add_cascade(label="Background settings", menu=submenu2)
 
-    root.config(menu=menu_bar)
+        root.config(menu=main_menu)
