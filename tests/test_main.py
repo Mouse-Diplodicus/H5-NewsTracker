@@ -6,23 +6,22 @@ from unittest.mock import MagicMock
 from unittest.mock import patch
 
 from H5_News_Tracker.controller import main
-from H5_News_Tracker.gui import ticker_window
+from H5_News_Tracker.gui.ticker_window import TickerWindow
 
 
 class TestMain(unittest.TestCase):
 
-    def test_build_rss_ticker(self):
-        """Testing the build_rss_ticker function """
-        with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
-            with patch('H5_News_Tracker.controller.main.build_library') as mocked_build_library:
+    def test_build_news_ticker(self):
+        """Testing the build_news_ticker function """
+        with patch('H5_News_Tracker.parser.feed_interface.build_library') as mocked_build_library:
+            with patch('H5_News_Tracker.parser.feed_interface.parse') as mocked_parser:
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
                     with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
-                        main.build_rss_ticker()
-                        mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
-                        mocked_build_library.assert_called_with(mocked_pull_feed('https://news.google.com/news/rss'))
-                        mocked_ticker_window.assert_any_call()
+                        main.build_news_ticker('https://news.google.com/news/rss')
+                        mocked_build_library.assert_called_with(mocked_parser('https://news.google.com/news/rss'))
+                        # mocked_ticker_window.assert_any_call()
                         # mocked_thread.assert_any_call()
-                        mocked_ticker_window.assert_has_calls(ticker_window.TickerWindow.start())
+                        mocked_ticker_window.assert_has_calls(mocked_ticker_window.start())
 
     def test_cycle(self):
         """

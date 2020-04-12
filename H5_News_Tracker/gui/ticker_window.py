@@ -24,7 +24,7 @@ class TickerWindow(tkinter.Frame):
         self.label_ticker = ttk.Label(master)
         self.button_exit = ttk.Button(master)
         self.master.overrideredirect(1)
-        self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
+        self.label_ticker.configure(padding=[0, -1, 0, -1])
         self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit)
         self.set_style()
         self.default_font = font.nametofont("TkDefaultFont")
@@ -36,13 +36,6 @@ class TickerWindow(tkinter.Frame):
         """Start gui main update loop """
         print("starting main loop")
         self.master.mainloop()
-
-    def start_with_timer(self, timer):
-        """Start gui main update loop with timer"""
-        print("starting main loop")
-        self.root.mainloop()
-        time.sleep(timer)
-        self.root.quit()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
@@ -70,6 +63,8 @@ class TickerWindow(tkinter.Frame):
     def size_headline(self, headline):
         """Function takes a string representing a headline and if it is longer than the maximum width allowed it will
             shorten the string and append an ellipse"""
+        if headline is None:
+            return ""
         max_pixel_width = font.Font.measure(self.default_font, "n")*self.max_label_width
         if max_pixel_width < font.Font.measure(self.default_font, headline):
             index = self.max_label_width
