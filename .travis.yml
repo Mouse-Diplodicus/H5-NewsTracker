@@ -11,9 +11,9 @@ jobs:
           organization: "h5-news-tracker"
           token: $SONAR_TOKEN
       script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
-        - coverage erase
-        - coverage run --source H5_News_tracker/ -m unittest tests/*.py
-        - coverage report
+        # - coverage erase
+        # - coverage run --source H5_News_tracker/ -m unittest tests/*.py
+        # - coverage report
         - pylint H5_News_Tracker/           # commands are placed here since they play nicest with Linux
         - radon cc --average --show-complexity --order SCORE H5_News_Tracker/      #Output CC results for viewing
         - xenon xenon -bB -mA -aA -e "./test"             #Run Cyclomatic Complexity test
