@@ -1,7 +1,6 @@
 """
 Program displays a window with text using Tkinter when run.
 """
-import time
 import tkinter
 import webbrowser
 from tkinter import font
@@ -53,7 +52,7 @@ class TickerWindow(tkinter.Frame):
         self.label_ticker.grid(row=0, column=0)
         self.button_exit.grid(row=0, column=1)
 
-    def update(self, headline, url):
+    def update_headline(self, headline, url):
         """Function updates the headline and associated url being displayed"""
         output = self.size_headline(headline)
         print("updating ticker to headline: ", output, "   url: ", url)

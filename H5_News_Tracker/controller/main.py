@@ -31,7 +31,7 @@ def cycle(ticker, library):
     run = True
     while run:
         for item in library:
-            ticker.update(item[0], item[1])
+            ticker.update_headline(item[0], item[1])
             time.sleep(CYCLE_TIME)
 
 

@@ -65,7 +65,7 @@ class TestTickerWindow(unittest.TestCase):
                 test_label.assert_has_calls(test_label.grid(row=0, column=0))
                 test_button.assert_has_calls(test_button.grid(row=0, column=1))
 
-    def test_update(self):
+    def test_update_headline(self):
         """Testing the TickerWindow Function update()"""
         with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
             headline = 'test headline'
@@ -78,13 +78,13 @@ class TestTickerWindow(unittest.TestCase):
             app = TickerWindow(master=root)
             test_label = mock_label(root)
 
-            app.update(headline, url)
+            app.update_headline(headline, url)
             test_label.assert_has_calls(test_label.configure('test headline'),
                                         test_label.bind("<Button-1>", lambda e: webbrowser.open_new('testurl.com')))
-            app.update(headline1, url1)
+            app.update_headline(headline1, url1)
             test_label.assert_has_calls(test_label.configure(""),
                                         test_label.bind("<Button-1>", lambda e: webbrowser.open_new("")))
-            app.update(headline2, url2)
+            app.update_headline(headline2, url2)
             test_label.assert_has_calls(test_label.configure(None),
                                         test_label.bind("<Button-1>", lambda e: webbrowser.open_new(None)))
 
