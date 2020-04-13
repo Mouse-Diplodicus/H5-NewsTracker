@@ -1,69 +1,37 @@
 """Tests for main.py"""
-import unittest
 import threading
 import time
 import tkinter
+import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import main
-from H5_News_Tracker.gui import ticker_window
+from H5_News_Tracker.gui.ticker_window import TickerWindow
 
 
 class TestMain(unittest.TestCase):
 
-    def test_build_rss_ticker(self):
-        """Testing the build_rss_ticker function """
-        with patch('H5_News_Tracker.controller.main.pull_feed') as mocked_pull_feed:
-            with patch('H5_News_Tracker.controller.main.build_library') as mocked_build_library:
+    def test_build_news_ticker(self):
+        """Testing the build_news_ticker function """
+        with patch('H5_News_Tracker.parser.feed_interface.build_library') as mocked_build_library:
+            with patch('H5_News_Tracker.parser.feed_interface.parse') as mocked_parser:
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
                     with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
                         main.build_rss_ticker()
                         root = tkinter.Tk()
                         # Assertions
-                        mocked_pull_feed.assert_called_with('https://news.google.com/news/rss')
-                        mocked_build_library.assert_called_with(mocked_pull_feed('https://news.google.com/news/rss'))
+                        main.build_news_ticker('https://news.google.com/news/rss')
+                        mocked_build_library.assert_called_with(mocked_parser('https://news.google.com/news/rss'))
                         mocked_ticker_window.assert_called_with(master=root)
                         #mocked_thread.assert_called_with(mocked_thread(target=cycle, args=[mocked_ticker_window, mocked_pull_feed], name="News-Cycling-Thread", daemon=True))
-                        mocked_ticker_window.assert_has_calls(ticker_window.TickerWindow.start())
-
-    def test_build_library(self):
-        """Testing the build_library function"""
-        item = MagicMock()
-        item.title = 'test title'
-        item.link = 'http://www.testsite.com'
-        item_empty = MagicMock()
-        item_empty.title = ''
-        item_empty.link = ''
-        item_none = MagicMock()
-        item_none.title = None
-        item_none.link = None
-        feed = MagicMock()
-
-        feed.entries = [item]
-        feed.entries.append(item_empty)
-        feed.entries.append(item_none)
-        library = main.build_library(feed)
-        self.assertEqual(library[0][0], 'test title')
-        self.assertEqual(library[0][1], 'http://www.testsite.com')
-        self.assertEqual(library[1][0], '')
-        self.assertEqual(library[1][1], '')
-        self.assertEqual(library[2][0], None)
-        self.assertEqual(library[2][1], None)
-
-    def test_pull_feed(self):
-        """Test the pull_feed function"""
-        ssl = MagicMock()
-        ssl._create_default_https_context = 'fake url'
-        feed_url = ssl._create_default_https_context
-        main.pull_feed(feed_url)
-        self.assertEqual(feed_url, 'fake url')
+                        mocked_ticker_window.assert_has_calls(TickerWindow.start())
 
     def test_cycle(self):
-        """Unit test for the cycle method
-        When Cycle is run:
-        *
         """
-        # Arrange
+        Unit test for the cycle method
+        When Cycle is run: it should call the update() function on the ticker it is passed after the Cycle_time
+        has passed
+        """
         mock_ticker = MagicMock()
         test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"],
                     ["headline_2", "https://test_2.com"]]
