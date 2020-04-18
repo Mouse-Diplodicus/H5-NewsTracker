@@ -1,8 +1,9 @@
 """
-The feed_interface module is responsible for pulling the RSS and ATOM feeds from a URL and building a list consisting
+ vThe feed_interface module is responsible for pulling the RSS and ATOM feeds from a URL and building a list consisting
 of headline and associated url pairs.
 """
 import ssl
+import threading
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 
@@ -23,7 +24,7 @@ def build_library(soup_page):
     The build_library function accepts a BeautifulSoup object as an argument and will return a list of the headlines
     and associated links
     """
-    library = []
+    library = ThreadSafeList()
     if not soup_page.find_all("item"):              # This statement will be true if the feed uses the ATOM format
         news_list = soup_page.find_all("entry")     # The "entry" field is what contains the titles and links for ATOM
         for item in news_list:
@@ -35,3 +36,40 @@ def build_library(soup_page):
             lib_item = [item.title.text, item.link.text]
             library.append(lib_item)
     return library
+
+
+# ThreadSafeList code taken from Dr Beaty
+class ThreadSafeList():
+    def __init__(self):
+        self.list = []
+        self.lock = threading.Lock()
+        self.count = 0
+
+    def append(self, element):
+        self.count += 1
+        self.lock.acquire()
+        self.list.append(element)
+        self.lock.release()
+
+    def extend(self, elements):
+        self.lock.acquire()
+        self.list.extend(elements)
+        self.lock.release()
+
+    def rotate(self):
+        self.lock.acquire()
+        ret = self.list.pop()
+        self.list.insert(0, ret)
+        self.lock.release()
+        return ret
+
+    def clear(self):
+        self.lock.acquire()
+        self.list.clear()
+        self.lock.release()
+
+    def iterate(self, item):
+        self.lock.acquire()
+        temp = self.list.pop(item)
+        self.lock.release()
+        return temp
