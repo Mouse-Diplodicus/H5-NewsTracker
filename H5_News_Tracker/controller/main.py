@@ -6,7 +6,7 @@ import time
 import tkinter
 from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
-from H5_News_Tracker.parser.feed_interface import ThreadSafeList
+
 
 # Constants
 CYCLE_TIME = 5  # in seconds
@@ -14,11 +14,8 @@ CYCLE_TIME = 5  # in seconds
 
 def build_news_ticker(urls, **kw):
     """Uses ticker_window to show the news feeds provided by the url argument"""
-    # lib = ThreadSafeList()
     for url in urls:
         library = feed_interface.build_library(feed_interface.parse(url))
-        # lib.append(feed)
-        # library += feed_interface.build_library(feed_interface.parse(url))
     root = tkinter.Tk()
     ticker = TickerWindow(master=root)
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
