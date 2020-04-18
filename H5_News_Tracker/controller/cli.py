@@ -4,7 +4,7 @@ Command Line Interface for H5 NewsTracker
 import argparse
 import webbrowser
 import logging
-import sys
+import yaml
 
 
 #def parse_args():
@@ -30,17 +30,19 @@ if args.input_file:
     file_check(file)
 """
 if args.feed_url:
-    #url = args.feed_url
-    webbrowser.get().open("https://www.google.com")
+    url = args.feed_url[0]
+    webbrowser.get().open(url)
 
 if args.feed_file:
     """
     do something
     """
 if args.config:
-    """
-    do something
-    """
+
+    with open ('travis.yml') as f:
+        data = yaml.safe_load(f, Loader=yaml.FullLoader)
+        print(data)
+
 if args.verbose:
     print("Running '{}'".format(__file__))
     #print("~ Verbose: {}".format(args.verbose))
