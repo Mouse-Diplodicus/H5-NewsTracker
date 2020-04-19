@@ -5,15 +5,18 @@ import argparse
 import webbrowser
 import logging
 import yaml
+import sys
+import feedparser
+import socket
 
 
 #def parse_args():
 parser = argparse.ArgumentParser(description="H5-NewsTracker command line interface")
 parser.add_argument('-u', '--url', dest='feed_url', action='store', type=str, default="",
                         help="enter a RSS or Atom feed url", nargs='*')
-parser.add_argument('-f', '--feed_file', action='store', dest='feed_file', default="",
+parser.add_argument('-f', '--feed_links', action='store', dest='feed_links', default="",
                         help="enter a feed file name", nargs='*')
-parser.add_argument('-c', '--config', action='store', dest='config', default="",
+parser.add_argument('-c', '--config', action='store', dest='config', default="", type=argparse.FileType(mode='r'),
                         help="enter .yaml file to configure", nargs='*')
 parser.add_argument('-v', '--verbose', action='count', default=0, help="verbosity (-v, -v -v, -vvv etc.)")
 
@@ -33,15 +36,29 @@ if args.feed_url:
     url = args.feed_url[0]
     webbrowser.get().open(url)
 
-if args.feed_file:
-    """
-    do something
-    """
+if args.feed_links:
+    timeout = 120
+    socket.setdefaulttimeout(timeout)
+
+    feed_name = sys.argv[1]
+    feed_url = sys.argv[2]
+    d = feedparser.parse(feed_url)
+    for s in d.entries:
+        print(feed_name + "|" + unicode(s.title).encode("utf-8") + "|" + unicode(s.link).encode("utf-8") + "n")
+
+    #rss_links = args.feed_links
+    #print(rss_links)
+
 if args.config:
 
-    with open ('travis.yml') as f:
-        data = yaml.safe_load(f, Loader=yaml.FullLoader)
-        print(data)
+    with open("/Users/thematrix/Desktop/H5-NewsTracker/.travis.yml") as f:
+        data = yaml.safe_load(f)
+        print(">>>>>>>>>>>>>>>>>")
+        for item, doc in data.items():
+            print(item, ":", doc)
+            print(">>>>>>>>>>>>>>>>>")
+
+        #args.config.close() #producing atterr because this is trying to close 'list' object not actual file
 
 if args.verbose:
     print("Running '{}'".format(__file__))
