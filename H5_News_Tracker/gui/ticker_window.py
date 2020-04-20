@@ -58,6 +58,8 @@ class TickerWindow:
         print("updating ticker to headline: ", headline, "   url: ", url)
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
+        self.label_ticker.columnconfigure(0, weight=1)
+        self.label_ticker.rowconfigure(0, weight=1)
 
     def build_submenus(self):
         editMenu = tk.Menu(main_menu)
@@ -79,4 +81,6 @@ class TickerWindow:
         submenu2.add_command(label="Blue", command=color_test.bg_update_blue)
         editMenu.add_cascade(label="Background settings", menu=submenu2)
 
+        root.columnconfigure(0, weight=1)
+        root.rowconfigure(0, weight=1)
         root.config(menu=main_menu)
