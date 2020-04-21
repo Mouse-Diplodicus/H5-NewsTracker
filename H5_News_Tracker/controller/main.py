@@ -28,7 +28,7 @@ def build_news_ticker(urls, **kw):
 def cycle(ticker, library):
     """Cycles through the various headlines"""
     print("starting cycling of headlines")
-    for i in range(library.count):
+    for i in range(library.check_len()):
         item = library.iterate(i)
         ticker.update_headline(item[0], item[1])
         time.sleep(CYCLE_TIME)

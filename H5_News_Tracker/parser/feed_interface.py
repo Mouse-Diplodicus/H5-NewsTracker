@@ -43,10 +43,8 @@ class ThreadSafeList():
     def __init__(self):
         self.list = []
         self.lock = threading.Lock()
-        self.count = 0
 
     def append(self, element):
-        self.count += 1
         self.lock.acquire()
         self.list.append(element)
         self.lock.release()
@@ -73,3 +71,9 @@ class ThreadSafeList():
         temp = self.list.pop(item)
         self.lock.release()
         return temp
+
+    def check_len(self):
+        self.lock.acquire()
+        length = len(self.list)
+        self.lock.release()
+        return length
