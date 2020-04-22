@@ -36,33 +36,37 @@ class TestMain(unittest.TestCase):
         has passed
         """
         with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mock_ticker:
-            # with patch('H5_News_Tracker.parser.feed_interface.ThreadSafeList') as mocked_list:
-            test_list = feed_interface.ThreadSafeList
-            root = tkinter.Tk()
-            mock_ticker(master=root)
-            test_list.append(["headline_0", "https://test_0.com"])
-            test_list.append(["headline_1", "https://test_1.com"])
-            test_list.append(["headline_2", "https://test_2.com"])
-            test_thread = threading.Thread(target=main.cycle, args=[mock_ticker, test_list], name="Test-Cycle-Thread")
+            with patch('H5_News_Tracker.parser.feed_interface.ThreadSafeList') as mocked_list:
+                with patch('H5_News_Tracker.gui.ticker_window.TickerWindow.update_headline') as mocked_update:
+                    # mocked_list = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"], ["headline_2", "https://test_2.com"]]
+                    mocked_list.append(["headline_0", "https://test_0.com"])
+                    mocked_list.append(["headline_1", "https://test_1.com"])
+                    mocked_list.append(["headline_2", "https://test_2.com"])
+                    root = tkinter.Tk()
+                    test_ticker = mock_ticker(master=root)
+                    test_thread = threading.Thread(target=main.cycle, args=[test_ticker, mocked_list], name="Test-Cycle-Thread")
 
-            print(test_list.count)
 
-            try:
-                    # Act
-                test_thread.start()
+                    try:
+                        # Act
+                        test_thread.start()
 
-                    # Assert
-                time.sleep(main.CYCLE_TIME / 2)
-                mock_ticker.update.assert_called_with(["headline_0", "https://test_0.com"])
-                time.sleep(main.CYCLE_TIME)
-                mock_ticker.update.assert_called_with(test_list[1][0], test_list[1][1])
-                time.sleep(main.CYCLE_TIME)
-                mock_ticker.update.assert_called_with(test_list[2][0], test_list[2][1])
-            except AssertionError as err:
-                raise err
-            except BaseException as err:
-                msg = "'cycle' command should not throw errors: " + repr(err)
-                raise AssertionError(msg)
+                        test_item = mocked_list.iterate(0)
+                        test_item1 = mocked_list.iterate(1)
+                        test_item2 = mocked_list.iterate(2)
+
+                        # Assert
+                        time.sleep(main.CYCLE_TIME / 2)
+                        test_ticker.update_headline.assert_called_with(test_item[0], test_item[1])
+                        time.sleep(main.CYCLE_TIME)
+                        test_ticker.update_headline.assert_called_with(test_item1[0], test_item1[1])
+                        time.sleep(main.CYCLE_TIME)
+                        test_ticker.update_headline.assert_called_with(test_item2[0], test_item2[1])
+                    except AssertionError as err:
+                        raise err
+                    except BaseException as err:
+                        msg = "'cycle' command should not throw errors: " + repr(err)
+                        raise AssertionError(msg)
 
 
 if __name__ == '__main__':
