@@ -5,18 +5,28 @@ import tkinter
 import tkinter as tk
 import webbrowser
 from tkinter import ttk
-from tkinter.ttk import OptionMenu
-from H5_News_Tracker.gui import color_test
-from H5_News_Tracker.gui.color_test import root, Menu, main_menu
+# from tkinter.ttk import OptionMenu
+# from H5_News_Tracker.gui import color_test
+# from H5_News_Tracker.gui.color_test import root, Menu, main_menu
 
 
-class TickerWindow:
+class TickerWindow(tk.Frame):
+
+    entry_title = "[BLANK Entry Title]"
+    entry_link = "[BLANK Entry Link]"
+
     root = tkinter.Tk()
 
-    main_menu = tk.Menu(root)
-    menu_bar = tk.Menu(root)
+    # main_menu = ttk.Menu(root)
+    # menu_bar = ttk.Menu(root)
+    # textColor = tkinter.StringVar()
+    # textColor.set('white')
+    # background = tkinter.StringVar()
+    # background.set('black')
 
     var = tkinter.StringVar(root)
+    # var.set('Select')
+    # choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
 
     label_ticker = ttk.Label(root)
     button_exit = ttk.Button(root)
@@ -24,13 +34,100 @@ class TickerWindow:
 
     def __init__(self, master=None, **kw):
         """Initializes the display window for the news ticker"""
+        self.entry_link = self.entry_link
+        self.entry_title = self.entry_title
         print("constructing gui")
-        self.root.overrideredirect(0)  # turn to 1 to delete border
+
+        super().__init__(master)
+        self.master = master
+        self.root.overrideredirect(0) #turn to 1 to delete border
         self.label_ticker.configure(width=8, background='#ffffff', foreground='#000000')
         self.button_exit.configure(text="X", padding=[2, 0, 2, 0], command=self.root.quit)
         # self.set_style()
         self.build()
+        self.menu_bar()
         print("Gui constructed")
+
+
+    def menu_bar(self):
+        """ View.main_view.MainView.menu_bar adds a drop down menu for our tk window. """
+        self.menubar = ttk.Menu(self)
+
+        self.dropdown_menu = ttk.Menu(self.menubar, tearoff=0)
+        self.dropdown_menu.add_command(label='white', command=self.bg_white)
+        self.dropdown_menu.add_command(label='red', command=self.bg_red)
+        self.dropdown_menu.add_command(label='blue', command=self.bg_blue)
+        self.dropdown_menu.add_command(label='green', command=self.bg_green
+        self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
+        self.master.config(menu=self.menubar)
+
+        self.font_menu = ttk.Menu(self.menubar)
+        self.font_menu.add_command(label='8', command=self.font_8)
+        self.font_menu.add_command(label='9', command=self.font_9)
+        self.font_menu.add_command(label='10', command=self.font_10)
+        self.font_menu.add_command(label='11', command=self.font_11)
+        self.font_menu.add_command(label='12', command=self.font_12)
+        self.font_menu.add_command(label='13', command=self.font_13)
+
+        self.menubar.add_cascade(label='Font size', menu=self.font_menu)
+
+        self.font_color = ttk.Menu(self.menubar)
+        self.font_color.add_command(label='red', command=self.font_red)
+        self.font_color.add_command(label='blue', command=self.font_blue)
+        self.font_color.add_command(label='yellow', command=self.font_yellow)
+        self.menubar.add_cascade(label='Font color', menu=self.font_color)
+
+    def font_red(self):
+        """ View.main_view.MainView.font_red sets font color to red. """
+        self.content_label['fg'] = 'red'
+
+    def font_yellow(self):
+        """ View.main_view.MainView.font_yellow sets font color to yellow. """
+        self.content_label['fg'] = 'yellow'
+
+    def font_blue(self):
+        """ View.main_view.MainView.font_blue sets font color to blue. """
+        self.content_label['fg'] = 'blue'
+
+    def font_8(self):
+        """ View.main_view.MainView.font_8 sets font size to 8. """
+        self.content_label['font'] = 'times 8'
+
+    def font_9(self):
+        """ View.main_view.MainView.font_9 sets font size to 9. """
+        self.content_label['font'] = 'times 9'
+
+    def font_10(self):
+        """ View.main_view.MainView.font_10 sets font size to 10. """
+        self.content_label['font'] = 'times 10'
+
+    def font_11(self):
+        """ View.main_view.MainView.font_11 sets font size to 11. """
+        self.content_label['font'] = 'times 11'
+
+    def font_12(self):
+        """ View.main_view.MainView.font_12 sets font size to 12. """
+        self.content_label['font'] = 'times 12'
+
+    def font_13(self):
+        """ View.main_view.MainView.font_13 sets font size to 13. """
+        self.content_label['font'] = 'times 13'
+
+    def bg_white(self):
+        """ View.main_view.MainView.bg_white sets background color to white. """
+        self.content_label['bg'] = 'white'
+
+    def bg_red(self):
+        """ View.main_view.MainView.bg_red sets background color to red. """
+        self.content_label['bg'] = 'red'
+
+    def bg_blue(self):
+        """ View.main_view.MainView.bg_blue sets background color to blue. """
+        self.content_label['bg'] = 'blue'
+
+    def bg_green(self):
+        """ View.main_view.MainView.bg_green sets background color to green. """
+        self.content_label['bg'] = 'green'
 
     def start(self):
         """Start gui main update loop"""
@@ -47,6 +144,7 @@ class TickerWindow:
         # self.label_ticker.configure(style="WB.TLabel")
         self.button_exit.configure(style="BR.TLabel")
 
+
     def build(self):
         """Sets organization for label and exit button"""
         print("organizing gui layout")
@@ -56,27 +154,36 @@ class TickerWindow:
 
     def update(self, headline, url):
         print("updating ticker to headline: ", headline, "   url: ", url)
+        self.winfo_toplevel().title("Tiny Ticker")
+        self.label_ticker["text"] = self.entry_title
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
+        self.pack())
 
-    def build_submenus(self):
-        editMenu = tk.Menu(main_menu)
-        submenu = tk.Menu(editMenu)
+    def display_entry(self, entry_title: str, entry_link: str):
 
-        submenu.add_command(label="Default", command=color_test.text_update_default)
-        submenu.add_command(label="White", command=color_test.text_update_white)
-        submenu.add_command(label="Red", command=color_test.text_update_red)
-        submenu.add_command(label="Blue", command=color_test.text_update_blue)
-        submenu.add_command(label="Green", command=color_test.text_update_green)
-        editMenu.add_cascade(label="Text settings", menu=submenu)
+        """ Viw.main_view.MainView.display_entry changes the displayed title and associated link.
+        This function updates both entry_title and entry_link with the appropriate parameters and changes the text of
+        content_label to that of the new entry_title.
 
-        main_menu.add_cascade(label="Edit", menu=editMenu)
+        Arguments:
+            entry_title: a string showing a headline
+            entry_link: a string that is the url for entry_title
+        """
 
-        submenu2 = tk.Menu(editMenu)
-        submenu2.add_command(label="Black", command=color_test.bg_update_black)
-        submenu2.add_command(label="White", command=color_test.bg_update_white)
-        submenu2.add_command(label="Pink", command=color_test.bg_update_pink)
-        submenu2.add_command(label="Blue", command=color_test.bg_update_blue)
-        editMenu.add_cascade(label="Background settings", menu=submenu2)
+        self.content_label["text"] = self.entry_title
+        self.content_label.update()
 
-    root.config(menu=main_menu)
+    def open_article(self, link):
+
+        """ View.main_view.MainView.open_article opens the web page associated with the current entry_title
+
+        Arguments:
+
+            link: url for the current entry_title
+        """
+
+        webbrowser.open_new(link)
+        self.content_label.update()
+
+
