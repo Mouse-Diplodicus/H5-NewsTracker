@@ -51,6 +51,16 @@ class TestMain(unittest.TestCase):
             msg = "'cycle' command should not throw errors: " + repr(err)
             raise AssertionError(msg)
 
+    def test_url_list_from_file(self):
+        """
+        Unit test for the url_list_from_file method
+        """
+        test_path = 'C:/Users/Mouse/Git/H5-NewsTracker/tests/urls.txt'
+        test_result = main.url_list_from_file(test_path)
+        expected_result = ['https://news.google.com/news/rss', 'http://rss.cnn.com/rss/cnn_topstories.rss',
+                           'http://rss.cnn.com/rss/cnn_world.rss', 'https://www.reddit.com/.rss']
+        self.assertEqual(expected_result, test_result)
+
 
 if __name__ == '__main__':
     unittest.main()
