@@ -5,13 +5,14 @@ import ssl
 import threading
 import time
 import feedparser
+#from H5_News_Tracker.controller.cli import parse_args
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
 CYCLE_TIME = 2  # in seconds
 
 
-def build_rss_ticker(**kw):
+def build_rss_ticker():
     """Uses ticker_window to show the google news feed"""
     google_news = pull_feed('https://news.google.com/news/rss')
     library = build_library(google_news)
@@ -62,4 +63,5 @@ def pull_feed(feed_url):
 
 if __name__ == '__main__':
     print("Program starting")
+    #parse_args()
     build_rss_ticker()
