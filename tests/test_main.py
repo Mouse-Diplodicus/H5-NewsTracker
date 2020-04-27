@@ -38,7 +38,6 @@ class TestMain(unittest.TestCase):
         with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mock_ticker:
             with patch('H5_News_Tracker.parser.feed_interface.ThreadSafeList') as mocked_list:
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow.update_headline') as mocked_update:
-                    # mocked_list = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"], ["headline_2", "https://test_2.com"]]
                     mocked_list.append(["headline_0", "https://test_0.com"])
                     mocked_list.append(["headline_1", "https://test_1.com"])
                     mocked_list.append(["headline_2", "https://test_2.com"])
@@ -48,12 +47,13 @@ class TestMain(unittest.TestCase):
 
 
                     try:
-                        # Act
-                        test_thread.start()
-
+                        #Assert
                         test_item = mocked_list.iterate(0)
                         test_item1 = mocked_list.iterate(1)
                         test_item2 = mocked_list.iterate(2)
+
+                        # Act
+                        test_thread.start()
 
                         # Assert
                         time.sleep(main.CYCLE_TIME / 2)

@@ -39,7 +39,11 @@ def build_library(soup_page):
 
 
 # ThreadSafeList code taken from Dr Beaty
+# Added the iterate and check_len functions
 class ThreadSafeList():
+    """
+    This class creates a list and locks it so that only one thread can work on the list at a time
+    """
     def __init__(self):
         self.list = []
         self.lock = threading.Lock()

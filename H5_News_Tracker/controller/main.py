@@ -13,7 +13,9 @@ CYCLE_TIME = 5  # in seconds
 
 
 def build_news_ticker(urls, **kw):
-    """Uses ticker_window to show the news feeds provided by the url argument"""
+    """
+    Uses ticker_window to show the news feeds provided by the url argument
+    """
     for url in urls:
         library = feed_interface.build_library(feed_interface.parse(url))
     root = tkinter.Tk()
@@ -26,7 +28,9 @@ def build_news_ticker(urls, **kw):
 
 
 def cycle(ticker, library):
-    """Cycles through the various headlines"""
+    """
+    Cycles through the various headlines
+    """
     print("starting cycling of headlines")
     for i in range(library.check_len()):
         item = library.iterate(i)

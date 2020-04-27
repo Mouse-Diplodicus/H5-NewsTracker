@@ -49,6 +49,38 @@ class TestFeedInterface(unittest.TestCase):
                          "9uZXcteW9yay1nb3YtY3VvbW8tc2F5cy1zdGF0ZS13b250LXJldHVybi10by1ub3JtYWwtYXMtZGFpbHktY29yb25hdm"
                          "lydXMtZGVhdGhzLXJlYWNoLW5ldy1oaWdoLmh0bWw?oc=5")
 
+    def test_empty(self):
+        a = feed_interface.ThreadSafeList()
+        self.assertEqual(len(a.list), 0)
+        self.assertEqual(a.list, [])
+
+    def test_append(self):
+        a = feed_interface.ThreadSafeList()
+        a.append('foo')
+        self.assertEqual(len(a.list), 1)
+        self.assertEqual(a.list, ['foo'])
+
+    def test_extend(self):
+        a = feed_interface.ThreadSafeList()
+        a.extend(['foo', 'bar'])
+        self.assertEqual(len(a.list), 2)
+        self.assertEqual(a.list, ['foo', 'bar'])
+
+    def test_rotate(self):
+        a = feed_interface.ThreadSafeList()
+        a.extend(['foo', 'bar'])
+        r = a.rotate()
+        self.assertEqual(r, 'bar')
+        self.assertEqual(a.list, ['bar', 'foo'])
+
+    def test_clear(self):
+        a = feed_interface.ThreadSafeList()
+        a.extend(['foo', 'bar'])
+        self.assertEqual(len(a.list), 2)
+        self.assertEqual(a.list, ['foo', 'bar'])
+        a.clear()
+        self.assertEqual(len(a.list), 0)
+        self.assertEqual(a.list, [])
 
 if __name__ == '__main__':
     unittest.main()
