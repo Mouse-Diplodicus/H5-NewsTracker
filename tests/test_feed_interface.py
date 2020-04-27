@@ -11,7 +11,7 @@ class TestFeedInterface(unittest.TestCase):
         self.assertEqual('Top stories - Google News', soup.title.text)
 
     def test_build_library(self):
-        with open("tests/sample_rss_feed.xml") as test_rss:
+        with open("tests/sample_rss_feed") as test_rss:
             soup = BeautifulSoup(test_rss, "xml")
         result = feed_interface.build_library(soup)
         self.assertEqual(result[0][0],
@@ -49,6 +49,8 @@ class TestFeedInterface(unittest.TestCase):
                          "9uZXcteW9yay1nb3YtY3VvbW8tc2F5cy1zdGF0ZS13b250LXJldHVybi10by1ub3JtYWwtYXMtZGFpbHktY29yb25hdm"
                          "lydXMtZGVhdGhzLXJlYWNoLW5ldy1oaWdoLmh0bWw?oc=5")
 
+    # Test code provided by Dr. Beaty
+    # Except for the iterate and check_len functions
     def test_empty(self):
         a = feed_interface.ThreadSafeList()
         self.assertEqual(len(a.list), 0)
@@ -81,6 +83,31 @@ class TestFeedInterface(unittest.TestCase):
         a.clear()
         self.assertEqual(len(a.list), 0)
         self.assertEqual(a.list, [])
+
+    def test_iterate(self):
+        a = feed_interface.ThreadSafeList()
+        a.extend(['foo', 'bar'])
+        r = a.iterate(0)
+        self.assertEqual(r, 'foo')
+        r = a.iterate(0)
+        self.assertEqual(r, 'bar')
+        a.extend([None, ""])
+        r = a. iterate(0)
+        self.assertEqual(r, None)
+        r = a.iterate(0)
+        self.assertEqual(r, "")
+
+    def test_check_Len(self):
+        a = feed_interface.ThreadSafeList()
+        r = a.check_len()
+        self.assertEqual(r, 0)
+        a.extend(['foo', 'bar'])
+        r = a.check_len()
+        self.assertEqual(r, 2)
+        a.extend([None, ""])
+        r = a.check_len()
+        self.assertEqual(r, 4)
+
 
 if __name__ == '__main__':
     unittest.main()
