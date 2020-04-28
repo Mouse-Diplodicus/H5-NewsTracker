@@ -19,11 +19,12 @@ class TestMain(unittest.TestCase):
                 with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
                     with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
                         with patch('H5_News_Tracker.controller.main.cycle') as mocked_cycle:
-                            main.build_news_ticker('https://test.com')
+                            test_url = ['https://test.com']
+                            main.build_news_ticker(test_url)
                             root = tkinter.Tk()
-                            test_library = feed_interface.build_library(feed_interface.parse('https://test.com'))
+                            test_library = feed_interface.build_library(feed_interface.parse(['https://test.com']))
                             # Assertions
-                            mocked_build_library.assert_called_with(mocked_parser('https://test.com'))
+                            mocked_build_library.assert_called_with(mocked_parser(['https://test.com']))
                             mocked_ticker_window.assert_called_with(master=root)
                             mocked_thread.assert_called_with(mocked_thread(target=mocked_cycle, args=[
                                 mocked_ticker_window, test_library], name="News-Cycling-Thread", daemon=True))
@@ -56,11 +57,11 @@ class TestMain(unittest.TestCase):
                         test_thread.start()
 
                         # Assert
-                        time.sleep(main.CYCLE_TIME / 2)
+                        time.sleep(main.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item[0], test_item[1])
-                        time.sleep(main.CYCLE_TIME)
+                        time.sleep(main.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item1[0], test_item1[1])
-                        time.sleep(main.CYCLE_TIME)
+                        time.sleep(main.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item2[0], test_item2[1])
                     except AssertionError as err:
                         raise err

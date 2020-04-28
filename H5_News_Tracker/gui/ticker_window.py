@@ -34,7 +34,7 @@ class TickerWindow(tkinter.Frame):
     def start(self):
         """Start gui main update loop """
         print("starting main loop")
-        self.master.mainloop()
+        self.master.update()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
