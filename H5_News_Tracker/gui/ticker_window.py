@@ -3,32 +3,38 @@ Program displays a window with text using Tkinter when run.
 """
 import tkinter
 import webbrowser
+from tkinter import font
 from tkinter import ttk
 
 
-class TickerWindow:
+class TickerWindow(tkinter.Frame):
     """Main Object for creating and running the news ticker gui"""
 
-    root = tkinter.Tk()
-
-    label_ticker = ttk.Label(root)
-    button_exit = ttk.Button(root)
+    max_label_width = 80
+    font_size = 12
     updating_feed = []
 
-    def __init__(self):
+    def __init__(self, master=None):
         """Initializes the display window for the news  ticker"""
         print("constructing gui")
-        self.root.overrideredirect(1)
-        self.label_ticker.configure(width=70, padding=[0, -1, 0, -1])
-        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.root.quit)
+
+        super().__init__(master)
+        self.master = master
+        self.label_ticker = ttk.Label(master)
+        self.button_exit = ttk.Button(master)
+        self.master.overrideredirect(1)
+        self.label_ticker.configure(padding=[0, -1, 0, -1])
+        self.button_exit.configure(text="X", padding=[2, -1, 2, -1], command=self.master.quit)
         self.set_style()
+        self.default_font = font.nametofont("TkDefaultFont")
+        self.default_font.configure(size=self.font_size)
         self.build()
         print("Gui constructed")
 
     def start(self):
         """Start gui main update loop """
         print("starting main loop")
-        self.root.mainloop()
+        self.master.mainloop()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
@@ -46,8 +52,25 @@ class TickerWindow:
         self.label_ticker.grid(row=0, column=0)
         self.button_exit.grid(row=0, column=1)
 
-    def update(self, headline, url):
+    def update_headline(self, headline, url):
         """Function updates the headline and associated url being displayed"""
-        print("updating ticker to headline: ", headline, "   url: ", url)
-        self.label_ticker.configure(text=headline)
+        output = self.size_headline(headline)
+        print("updating ticker to headline: ", output, "   url: ", url)
+        self.label_ticker.configure(text=output)
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
+
+    def size_headline(self, headline):
+        """Function takes a string representing a headline and if it is longer than the maximum width allowed it will
+            shorten the string and append an ellipse"""
+        if headline is None:
+            return ""
+        max_pixel_width = font.Font.measure(self.default_font, "n")*self.max_label_width
+        if max_pixel_width < font.Font.measure(self.default_font, headline):
+            index = self.max_label_width
+            max_pixel_width -= font.Font.measure(self.default_font, "...")
+            while max_pixel_width > font.Font.measure(self.default_font, headline[:index]):
+                index += 1
+            output = headline[:index-1]+"..."
+        else:
+            output = headline
+        return output
