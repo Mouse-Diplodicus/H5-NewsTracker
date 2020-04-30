@@ -8,6 +8,7 @@ from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
 
 
+
 # Constants
 CYCLE_TIME = 5  # in seconds
 

@@ -1,34 +1,48 @@
-"""Tests for main.py"""
+"""Tests for rss_controller.py"""
 import threading
 import time
 import tkinter
 import unittest
-from unittest.mock import MagicMock
 from unittest.mock import patch
-from H5_News_Tracker.controller import main
+from H5_News_Tracker.controller import rss_controller
 from H5_News_Tracker.gui.ticker_window import TickerWindow
 from H5_News_Tracker.parser import feed_interface
+from H5_News_Tracker.parser.feed_interface import ThreadSafeList
 
 
 class TestMain(unittest.TestCase):
 
     def test_build_news_ticker(self):
-        """Testing the build_news_ticker function """
+        """
+        Testing the build_news_ticker function
+        """
+
+        # Initializing
+        test_urls = ['https://test.com']
+        root = tkinter.Tk()
+
         with patch('H5_News_Tracker.parser.feed_interface.build_library') as mocked_build_library:
             with patch('H5_News_Tracker.parser.feed_interface.parse') as mocked_parser:
-                with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
-                    with patch('H5_News_Tracker.controller.main.threading.Thread') as mocked_thread:
-                        with patch('H5_News_Tracker.controller.main.cycle') as mocked_cycle:
-                            test_url = ['https://test.com']
-                            main.build_news_ticker(test_url)
-                            root = tkinter.Tk()
-                            test_library = feed_interface.build_library(feed_interface.parse(['https://test.com']))
-                            # Assertions
-                            mocked_build_library.assert_called_with(mocked_parser(['https://test.com']))
-                            mocked_ticker_window.assert_called_with(master=root)
-                            mocked_thread.assert_called_with(mocked_thread(target=mocked_cycle, args=[
-                                mocked_ticker_window, test_library], name="News-Cycling-Thread", daemon=True))
-                            mocked_ticker_window.assert_has_calls(TickerWindow.start())
+                # Action
+                rss_controller.build_news_ticker(test_urls)
+                # Assertions
+                mocked_build_library.assert_called_with(mocked_parser('https://test.com'))
+                # mocked_build_library.assert_called_with(mocked_parser(''))
+                # mocked_build_library.assert_called_with(mocked_parser(None))
+
+        with patch('H5_News_Tracker.gui.ticker_window.TickerWindow') as mocked_ticker_window:
+            # Action
+            rss_controller.build_news_ticker(test_urls)
+            # Assertions
+            mocked_ticker_window.assert_called_with(master=root)
+            mocked_ticker_window.assert_called_with(mocked_ticker_window.start())
+            pass
+
+        with patch('H5_News_Tracker.controller.rss_controller.threading.Thread') as mocked_thread:
+            with patch('H5_News_Tracker.controller.rss_controller.cycle') as mocked_cycle:
+                pass
+                #mocked_thread.assert_called_with(target=mocked_cycle, args=[TickerWindow(master=root),
+                 #                                test_lib], name="News-Cycling-Thread", daemon=True)
 
     def test_cycle(self):
         """
@@ -44,7 +58,7 @@ class TestMain(unittest.TestCase):
                     mocked_list.append(["headline_2", "https://test_2.com"])
                     root = tkinter.Tk()
                     test_ticker = mock_ticker(master=root)
-                    test_thread = threading.Thread(target=main.cycle, args=[test_ticker, mocked_list], name="Test-Cycle-Thread")
+                    test_thread = threading.Thread(target=rss_controller.cycle, args=[test_ticker, mocked_list], name="Test-Cycle-Thread")
 
 
                     try:
@@ -57,11 +71,11 @@ class TestMain(unittest.TestCase):
                         test_thread.start()
 
                         # Assert
-                        time.sleep(main.CYCLE_TIME / 10)
+                        time.sleep(rss_controller.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item[0], test_item[1])
-                        time.sleep(main.CYCLE_TIME / 10)
+                        time.sleep(rss_controller.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item1[0], test_item1[1])
-                        time.sleep(main.CYCLE_TIME / 10)
+                        time.sleep(rss_controller.CYCLE_TIME / 10)
                         test_ticker.update_headline.assert_called_with(test_item2[0], test_item2[1])
                     except AssertionError as err:
                         raise err
