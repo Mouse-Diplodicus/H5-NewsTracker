@@ -6,6 +6,7 @@ import time
 import tkinter
 from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
+from H5_News_Tracker.controller import cli
 
 # Constants
 CYCLE_TIME = 5  # in seconds
@@ -38,4 +39,6 @@ def cycle(ticker, library):
 if __name__ == '__main__':
     print("Program starting")
     URLS = ['https://news.google.com/news/rss', 'https://news.google.com/news/atom']
+    cli.parse_args()
     build_news_ticker(URLS)
+
