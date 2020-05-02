@@ -14,7 +14,7 @@ jobs:
           token: $SONAR_TOKEN
       script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
         - sonar-scanner         # commands are placed here since they play nicest with Linux
-        - pylint H5_News_Tracker/ 
+        - pylint H5_News_Tracker/
         - radon cc --average --show-complexity --order SCORE H5_News_Tracker/      #Output CC results for viewing
         - xenon xenon -bB -mA -aA -e "./test"             #Run Cyclomatic Complexity test
         - radon mi --multi --show H5_News_Tracker/        #Outputs Maintainability score
