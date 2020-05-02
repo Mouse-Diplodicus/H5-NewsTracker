@@ -5,7 +5,7 @@ import ssl
 import threading
 import time
 import feedparser
-#from H5_News_Tracker.controller.cli import parse_args
+from H5_News_Tracker.controller import cli
 from H5_News_Tracker.gui import ticker_window
 
 # Constants
