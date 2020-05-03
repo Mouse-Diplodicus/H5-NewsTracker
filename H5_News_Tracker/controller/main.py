@@ -35,6 +35,19 @@ def cycle(ticker, library):
             time.sleep(CYCLE_TIME)
 
 
+def url_list_from_file(file_path):
+    """ Accepts a path to a test file and will return an array of urls"""
+    file_object = open(file_path, "r")
+    url_list = file_object.readlines()
+    file_object.close()
+    length = len(url_list)
+    for i in range(length):
+        url_list[i] = url_list[i].rstrip()
+        url_list[i] = url_list[i].replace(',', '')
+    print(url_list)
+    return url_list
+
+
 if __name__ == '__main__':
     print("Program starting")
     URLS = ['https://news.google.com/news/rss', 'https://news.google.com/news/atom']
