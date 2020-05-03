@@ -41,6 +41,19 @@ def cycle(ticker, library):
             ticker.update_headline(item[0], item[1])
             time.sleep(CYCLE_TIME)
 
+            
+def url_list_from_file(file_path):
+    """ Accepts a path to a test file and will return an array of urls"""
+    file_object = open(file_path, "r")
+    url_list = file_object.readlines()
+    file_object.close()
+    length = len(url_list)
+    for i in range(length):
+        url_list[i] = url_list[i].rstrip()
+        url_list[i] = url_list[i].replace(',', '')
+    print(url_list)
+    return url_list
+  
 
 def logger_setup():
     logging.basicConfig(level=logging.ERROR, format="%(asctime)s %(levelname)s %(message)s")
@@ -86,6 +99,7 @@ parser.add_argument('-c', '--config', action='store', dest='config', default="",
                     help="enter .yaml file to configure", nargs='*')
 parser.add_argument('-v', '--verbose', action='count', default=0, help="verbosity (-v, -v -v, -vvv etc.)")
 args = parser.parse_args()
+
 
 if __name__ == '__main__':
     print("Program starting")
