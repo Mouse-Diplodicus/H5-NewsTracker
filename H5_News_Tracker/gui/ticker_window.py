@@ -3,6 +3,7 @@ Program displays a window with text using Tkinter when run.
 """
 import tkinter
 import webbrowser
+import logging
 from tkinter import font
 from tkinter import ttk
 
@@ -29,16 +30,16 @@ class TickerWindow(tkinter.Frame):
         self.default_font = font.nametofont("TkDefaultFont")
         self.default_font.configure(size=self.font_size)
         self.build()
-        print("Gui constructed")
+        logging.info("Gui constructed")
 
     def start(self):
         """Start gui main update loop """
-        print("starting main loop")
+        logging.info("starting main loop")
         self.master.mainloop()
 
     def set_style(self):
         """Sets styling for various Tkinter objects"""
-        print("setting styling")
+        logging.info("setting styling")
         style = ttk.Style()
         style.configure("default.TLabel", foreground="#000000", background="#ffffff")
         style.configure("WB.TLabel", foreground="#ffffff", background="#000000", relief="GROOVE")
@@ -48,14 +49,14 @@ class TickerWindow(tkinter.Frame):
 
     def build(self):
         """Sets organization for label and exit button"""
-        print("organizing gui layout")
+        logging.info("organizing gui layout")
         self.label_ticker.grid(row=0, column=0)
         self.button_exit.grid(row=0, column=1)
 
     def update_headline(self, headline, url):
         """Function updates the headline and associated url being displayed"""
         output = self.size_headline(headline)
-        print("updating ticker to headline: ", output, "   url: ", url)
+        logging.info("updating ticker to headline: ", output, "   url: ", url)
         self.label_ticker.configure(text=output)
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
 
