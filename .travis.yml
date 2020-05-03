@@ -5,22 +5,22 @@ jobs:
       python: 3.6           # this works for Linux but is ignored on macOS or Windows
       install:
         - pip3 install -r requirements_dev.txt
-      dist: trusty          # This is needed for SonarCloud to work
+      dist: xenial
+      services: xvfb
       addons:
         sonarcloud:         # Providing SonarCloud information
           organization: "h5-news-tracker"
           token: $SONAR_TOKEN
       script:                   # Since sonar-scanner and pylint don't need to be run multiple times the
-        # - coverage erase
-        # - coverage run --source H5_News_tracker/ -m unittest tests/*.py
-        # - coverage report
+        - coverage erase
+        - coverage run --source H5_News_tracker/ -m unittest tests/*.py
+        - coverage report
         - pylint H5_News_Tracker/           # commands are placed here since they play nicest with Linux
         - radon cc --average --show-complexity --order SCORE H5_News_Tracker/      #Output CC results for viewing
         - xenon xenon -bB -mA -aA -e "./test"             #Run Cyclomatic Complexity test
         - radon mi --multi --show H5_News_Tracker/        #Outputs Maintainability score
         - radon raw --summary H5_News_Tracker/            #Outputs Raw Metrics
         - radon hal H5_News_Tracker/                      #Outputs Halstead Metrics
-        - sonar-scanner
     - name: "Python 3.7.4 on macOS"
       os: osx
       osx_image: xcode11.2  # Python 3.7.4 running on macOS 10.14.4
