@@ -16,11 +16,30 @@ class TestTickerWindow(unittest.TestCase):
 
     def test_font_red(self):
         """Testing the menu font color"""
-        color = "red"
-        with patch('tkinter.Tk') as mock_ticker:
-            mock_root = mock_ticker()
-            tw = TickerWindow(master=mock_root)
-            self.assertEqual("red", tw.font_red(color))
+        with patch('H5_News_Tracker.gui.ticker_window.tk.Label', new_callable=PropertyMock) as mock_font_color:
+            root = mock_font_color()
+            app = TickerWindow(master=root)
+            color = 'red'
+            app.font_red()
+            mock_font_color.assert_has_calls(mock_font_color.configure(background=color))
+
+    def test_font_8(self):
+        """Testing the menu font size"""
+        with patch('H5_News_Tracker.gui.ticker_window.tk.Label', new_callable=PropertyMock) as mock_size:
+            root = mock_size.Tk()
+            app = TickerWindow(master=root)
+            size = 8
+            app.font_8()
+            mock_size.assert_has_calls(mock_size.configure(size=size))
+
+    def test_bg_white(self):
+        """Testing the menu background color"""
+        with patch('H5_News_Tracker.gui.ticker_window.tk.Label', new_callable=PropertyMock) as mock_bg_color:
+            root = mock_bg_color.Tk()
+            app = TickerWindow(master=root)
+            color = 'white'
+            app.bg_white()
+            mock_bg_color.assert_has_calls(mock_bg_color.configure(background=color))
 
 
 if __name__ == '__main__':
