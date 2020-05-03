@@ -1,0 +1,9 @@
+source:
+    path_to_file:
+    default_url:
+ticker_window:
+    cycle_time:
+    font:
+    font_size:
+    text_color:
+    background_color:

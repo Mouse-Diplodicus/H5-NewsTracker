@@ -28,6 +28,23 @@ def url_list_from_file(file_path):
     return url_list
 
 
+def load_config_file(path):
+    try:
+        with open(path) as f:
+            data = yaml.safe_load(f)
+            for item, doc in data.items():
+                print(item, ":", doc)
+                print(">>>>>>>>>>>>>>>>>")
+    except FileNotFoundError:
+        pass
+
+
+def mk_config_file():
+    pass
+
+
+def update_config_file():
+    pass
 
 
 def logger_setup():
@@ -76,12 +93,7 @@ class Controller:
             self.url_list = url_list_from_file(ARGS.file_path[0])
 
         if ARGS.config:
-            with open("/Users/thematrix/Desktop/H5-NewsTracker/.travis.yml") as f:
-                data = yaml.safe_load(f)
-                print(">>>>>>>>>>>>>>>>>")
-                for item, doc in data.items():
-                    print(item, ":", doc)
-                    print(">>>>>>>>>>>>>>>>>")
+            settings = load_config_file(os.getcwd() + "config.yml")
 
             # args.config.close() #producing atterr because this is trying to close 'list' object not actual file
         if ARGS.verbose:
