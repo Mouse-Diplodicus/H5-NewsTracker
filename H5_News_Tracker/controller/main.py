@@ -103,10 +103,8 @@ def parse_args():
     parser.add_argument('-b', '--background', action='store', dest='background', type=str,
                         help="enter desired background color e.g. -b white", nargs='*')
     parser.add_argument('-v', '--verbose', action='count', default=0, help="verbosity (-v, -v -v, -vvv etc.)")
-    return parser.parse_args()
-
-
-ARGS = parse_args()
+    global ARGS
+    ARGS = parser.parse_args()
 
 
 class Controller:
