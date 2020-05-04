@@ -51,6 +51,18 @@ class TestMain(unittest.TestCase):
             msg = "'cycle' command should not throw errors: " + repr(err)
             raise AssertionError(msg)
 
+    def test_parse_args_default(self):
+        parser = main.parse_args([])
+        self.assertFalse(parser.url)
+
+    def test_parse_args(self):
+        parser = main.parse_args(['--url'])
+        self.assertTrue(self, parser.url)
+        parser = main.parse_args(['--file'])
+        self.assertTrue(self, parser.file)
+        parser = main.parse_args(['--config'])
+        self.assertTrue(self, parser.config)
+
     def test_url_list_from_file(self):
         """
         Unit test for the url_list_from_file method
