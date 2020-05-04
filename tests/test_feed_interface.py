@@ -1,5 +1,6 @@
 import unittest
 from bs4 import BeautifulSoup
+from pathlib import Path
 from H5_News_Tracker.parser import feed_interface
 
 
@@ -11,8 +12,16 @@ class TestFeedInterface(unittest.TestCase):
         self.assertEqual('Top stories - Google News', soup.title.text)
 
     def test_build_library(self):
-        with open("tests/sample_rss_feed.xml") as test_rss:
-            soup = BeautifulSoup(test_rss, "xml")
+        try:
+            with open("tests/sample_rss_feed.xml") as test_rss:
+                soup = BeautifulSoup(test_rss, "xml")
+        except FileNotFoundError:
+            path = Path(__file__).resolve().parents[1]
+            path = path / 'tests' / 'sample_rss_feed.xml'
+            print(path)
+            with open(path) as test_rss:
+                soup = BeautifulSoup(test_rss, "xml")
+
         result = feed_interface.build_library(soup)
         self.assertEqual(result[0][0],
                          "Bernie Sanders Drops Out of 2020 Democratic Race for President - The New York Times")
@@ -30,8 +39,16 @@ class TestFeedInterface(unittest.TestCase):
                          "uZXcteW9yay1nb3YtY3VvbW8tc2F5cy1zdGF0ZS13b250LXJldHVybi10by1ub3JtYWwtYXMtZGFpbHktY29yb25hdmly"
                          "dXMtZGVhdGhzLXJlYWNoLW5ldy1oaWdoLmh0bWw?oc=5")
 
-        with open("tests/sample_atom_feed.xml") as test_atom:
-            soup = BeautifulSoup(test_atom, "xml")
+        try:
+            with open("tests/sample_atom_feed.xml") as test_atom:
+                soup = BeautifulSoup(test_atom, "xml")
+        except FileNotFoundError:
+            path = Path(__file__).resolve().parents[1]
+            path = path / 'tests' / 'sample_atom_feed.xml'
+            print(path)
+            with open(path) as test_atom:
+                soup = BeautifulSoup(test_atom, "xml")
+
         result = feed_interface.build_library(soup)
         self.assertEqual(result[0][0],
                          "Bernie Sanders Drops Out of 2020 Democratic Race for President - The New York Times")

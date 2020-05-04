@@ -19,6 +19,12 @@ ARGS = None
 def start():
     parse_args()
     logger_setup()
+    if ARGS.verbose:
+        levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
+        level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
+        logger.setLevel(level)
+        logger.info("set Logger level to " + str(level))
+
     config = load_config_file()
     ticker_config = config['ticker_window']
     if ARGS.font_type:
@@ -103,19 +109,14 @@ def logger_setup():
     global logger
     logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
     logger = logging.getLogger()
+    logger.setLevel(logging.ERROR)
 
     handler = logging.StreamHandler(sys.stdout)
     handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
     handler.setFormatter(formatter)
 
-    if ARGS.verbose:
-        levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
-        level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
-        logger.setLevel(level)
-        logger.info("set Logger level to " + str(level))
-    else:
-        logger.setLevel(logging.ERROR)
+    return logger
 
 
 def parse_args():

@@ -6,6 +6,7 @@ from unittest.mock import PropertyMock
 from unittest.mock import patch
 
 from H5_News_Tracker.gui.ticker_window import TickerWindow
+from H5_News_Tracker.controller import main
 
 
 class TestTickerWindow(unittest.TestCase):
@@ -58,7 +59,7 @@ class TestTickerWindow(unittest.TestCase):
         with patch('tkinter.ttk.Label', new_callable=PropertyMock) as mock_label:
             with patch('tkinter.ttk.Button', new_callable=PropertyMock) as mock_button:
                 root = tkinter.Tk()
-                app = TickerWindow(master=root)
+                app = TickerWindow(master=root, logger=main.logger_setup())
                 test_label = mock_label(root)
                 test_button = mock_button(root)
                 app.build()
