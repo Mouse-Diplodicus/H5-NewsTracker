@@ -6,9 +6,6 @@ import time
 import tkinter
 from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
-
-
-
 # Constants
 CYCLE_TIME = 5  # in seconds
 
@@ -21,6 +18,7 @@ def build_news_ticker(urls, **kw):
         library = feed_interface.build_library(feed_interface.parse(url))
     root = tkinter.Tk()
     ticker = TickerWindow(master=root)
+    print(ticker)
     news_cycle_thread = threading.Thread(target=cycle, args=[ticker, library], name="News-Cycling-Thread", daemon=True)
     print("Starting Threads:")
     news_cycle_thread.start()
