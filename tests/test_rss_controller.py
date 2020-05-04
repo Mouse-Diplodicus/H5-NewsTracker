@@ -80,9 +80,11 @@ class TestMain(unittest.TestCase):
         has passed
         """
         mock_ticker = MagicMock()
-        test_lib = [["headline_0", "https://test_0.com"], ["headline_1", "https://test_1.com"],
-                    ["headline_2", "https://test_2.com"]]
-        controller = rss_controller.Controller(self.library, cycle_time=2, ticker_config=self.test_config)
+        test_lib = ThreadSafeList()
+        test_lib.append(["headline_0", "https://test_0.com"])
+        test_lib.append(["headline_1", "https://test_1.com"])
+        test_lib.append(["headline_2", "https://test_2.com"])
+        controller = rss_controller.Controller(test_lib, cycle_time=2, ticker_config=self.test_config)
         test_thread = threading.Thread(target=controller.cycle, args=[mock_ticker, self.library],
                                        kwargs=dict(iterations=2), name="Test-Cycle-Thread")
         try:

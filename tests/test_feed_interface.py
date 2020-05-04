@@ -23,16 +23,18 @@ class TestFeedInterface(unittest.TestCase):
                 soup = BeautifulSoup(test_rss, "xml")
 
         result = feed_interface.build_library(soup)
-        self.assertEqual(result[0][0],
+        test0 = result.iterate(0)
+        self.assertEqual(test0[0],
                          "Bernie Sanders Drops Out of 2020 Democratic Race for President - The New York Times")
-        self.assertEqual(result[0][1],
+        self.assertEqual(test0[1],
                          "https://news.google.com/__i/rss/rd/articles/CBMiTGh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMjAvMDQvM"
                          "DgvdXMvcG9saXRpY3MvYmVybmllLXNhbmRlcnMtZHJvcHMtb3V0Lmh0bWzSAVBodHRwczovL3d3dy5ueXRpbWVzLmNvbS"
                          "8yMDIwLzA0LzA4L3VzL3BvbGl0aWNzL2Jlcm5pZS1zYW5kZXJzLWRyb3BzLW91dC5hbXAuaHRtbA?oc=5")
-        self.assertEqual(result[1][0],
+        test1 = result.iterate(0)
+        self.assertEqual(test1[0],
                          "New York Gov. Cuomo says state won't return to 'normal' as daily coronavirus deaths reach new"
                          " high - CNBC")
-        self.assertEqual(result[1][1],
+        self.assertEqual(test1[1],
                          "https://news.google.com/__i/rss/rd/articles/CBMigwFodHRwczovL3d3dy5jbmJjLmNvbS8yMDIwLzA0LzA4L"
                          "25ldy15b3JrLWdvdi1jdW9tby1zYXlzLXN0YXRlLXdvbnQtcmV0dXJuLXRvLW5vcm1hbC1hcy1kYWlseS1jb3JvbmF2aX"
                          "J1cy1kZWF0aHMtcmVhY2gtbmV3LWhpZ2guaHRtbNIBhwFodHRwczovL3d3dy5jbmJjLmNvbS9hbXAvMjAyMC8wNC8wOC9"
@@ -50,16 +52,18 @@ class TestFeedInterface(unittest.TestCase):
                 soup = BeautifulSoup(test_atom, "xml")
 
         result = feed_interface.build_library(soup)
-        self.assertEqual(result[0][0],
+        test2 = result.iterate(0)
+        self.assertEqual(test2[0],
                          "Bernie Sanders Drops Out of 2020 Democratic Race for President - The New York Times")
-        self.assertEqual(result[0][1],
+        self.assertEqual(test2[1],
                          "https://news.google.com/__i/rss/rd/articles/CBMiTGh0dHBzOi8vd3d3Lm55dGltZXMuY29tLzIwMjAvMDQvM"
                          "DgvdXMvcG9saXRpY3MvYmVybmllLXNhbmRlcnMtZHJvcHMtb3V0Lmh0bWzSAVBodHRwczovL3d3dy5ueXRpbWVzLmNvbS"
                          "8yMDIwLzA0LzA4L3VzL3BvbGl0aWNzL2Jlcm5pZS1zYW5kZXJzLWRyb3BzLW91dC5hbXAuaHRtbA?oc=5")
-        self.assertEqual(result[1][0],
+        test3 = result.iterate(0)
+        self.assertEqual(test3[0],
                          "New York Gov. Cuomo says state won't return to 'normal' as daily coronavirus deaths reach new"
                          " high - CNBC")
-        self.assertEqual(result[1][1],
+        self.assertEqual(test3[1],
                          "https://news.google.com/__i/rss/rd/articles/CBMigwFodHRwczovL3d3dy5jbmJjLmNvbS8yMDIwLzA0LzA4L"
                          "25ldy15b3JrLWdvdi1jdW9tby1zYXlzLXN0YXRlLXdvbnQtcmV0dXJuLXRvLW5vcm1hbC1hcy1kYWlseS1jb3JvbmF2aX"
                          "J1cy1kZWF0aHMtcmVhY2gtbmV3LWhpZ2guaHRtbNIBhwFodHRwczovL3d3dy5jbmJjLmNvbS9hbXAvMjAyMC8wNC8wOC"
