@@ -5,30 +5,26 @@ import threading
 import time
 import tkinter
 import logging
-import yaml
-import argparse
-import os
 import sys
+import argparse
 from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
+from H5_News_Tracker.controller import utilities
 
-logger = None
+logger = utilities.get_logger()
 ARGS = None
 
 
 def start():
     parse_args()
-    logger_setup()
     if ARGS.verbose:
         levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
         level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
         logger.setLevel(level)
         logger.info("set Logger level to " + str(level))
 
-    config = load_config_file()
+    config = utilities.load_config_file()
     ticker_config = config['ticker_window']
-    if ARGS.font_type:
-        ticker_config['font'] = ARGS.font_type
     if ARGS.font_size:
         ticker_config['font_size'] = ARGS.font_size
     if ARGS.text_color:
@@ -48,12 +44,16 @@ def start():
     logger.info('url_list set to:')
     logger.info(url_list)
 
+    logger.info('Building library')
+    library = build_library(url_list)
+
     if ARGS.cycle_time:
         ct = ARGS.cycle_time
     else:
         ct = config['source']['cycle_time']
 
-    Controller(url_list, logger=logger, cycle_time=ct, ticker_config=ticker_config)
+    control = Controller(library, cycle_time=ct, ticker_config=ticker_config)
+    control.start_gui()
 
 
 def url_list_from_file(file_path):
@@ -75,53 +75,15 @@ def url_list_from_file(file_path):
         return None
 
 
-def load_config_file():
-    try:
-        with open('config.yml') as f:
-            config = yaml.safe_load(f)
-            logger.info('Successfully loaded config file')
-            return config
-    except FileNotFoundError:
-        logger.info('Could not find config file, generating new file')
-        mk_config_file()
-        with open('config.yml') as f:
-            data = yaml.safe_load(f)
-            return config
-
-
-def mk_config_file():
-    config = dict(
-        source=dict(
-            cycle_time=6,
-            path_to_file=None,
-            default_url='https://news.google.com/news/rss',
-        ),
-        ticker_window=dict(
-            font=None,
-            font_size=12,
-            text_color='white',
-            background_color='black',
-        )
-    )
-    with open('config.yml', 'w') as outfile:
-        yaml.dump(config, outfile)
-
-
-def logger_setup():
-    global logger
-    logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
-    logger = logging.getLogger()
-    logger.setLevel(logging.ERROR)
-
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
-    handler.setFormatter(formatter)
-
-    return logger
+def build_library(url_list):
+    library = []
+    for url in url_list:
+        library += feed_interface.build_library(feed_interface.parse(url))
+    return library
 
 
 def parse_args():
+    print(sys.argv)
     parser = argparse.ArgumentParser(description="H5-NewsTracker")
     parser.add_argument('-l', '--file', action='store', dest='file_path',
                         help="enter path to flat list test document of feed urls")
@@ -145,29 +107,28 @@ def parse_args():
 class Controller:
     """"""
     # Constants
-    url_list = []  # list of urls to pull feeds from for new ticker
 
-    def __init__(self, url_list, cycle_time=7, ticker_config=None, **kw):
+    def __init__(self, library, cycle_time=7, ticker_config=None, **kw):
         """Uses ticker_window to show the news feeds provided by the url argument"""
         logger.info("Starting News Ticker")
         self.cycle_time = cycle_time
-        library = []
-        for url in url_list:
-            library += feed_interface.build_library(feed_interface.parse(url))
         root = tkinter.Tk()
-        self.ticker = TickerWindow(master=root, logger=logger, config=ticker_config)
-        news_cycle_thread = threading.Thread(target=self.cycle, args=[library],
+        self.ticker = TickerWindow(master=root, config=ticker_config)
+        news_cycle_thread = threading.Thread(target=self.cycle, args=[self.ticker, library],
                                              name="News-Cycling-Thread", daemon=True)
         logger.info("Starting Threads")
         news_cycle_thread.start()
-        self.ticker.start()
         logger.info("Program Exit")
 
-    def cycle(self, library):
+    def cycle(self, ticker, library, iterations=None):
         """Cycles through the various headlines"""
         logger.info("Starting cycling of headlines")
-        run = True
-        while run:
+        while iterations is None or iterations > 0:
             for item in library:
-                self.ticker.update_headline(item[0], item[1])
+                ticker.update_headline(item[0], item[1])
                 time.sleep(self.cycle_time)
+            if iterations is not None:
+                iterations = iterations-1
+
+    def start_gui(self):
+        self.ticker.start()

@@ -1,18 +1,17 @@
 """
 Program displays a window with text using Tkinter when run.
 """
-import tkinter
 import tkinter as tk
 import webbrowser
 import time
 from tkinter import font
 from tkinter import ttk
-# from tkinter.ttk import OptionMenu
-# from H5_News_Tracker.gui import color_test
-# from H5_News_Tracker.gui.color_test import root, Menu, main_menu
+from H5_News_Tracker.controller.utilities import get_logger
+
+logger = get_logger()
 
 
-class TickerWindow(tkinter.Frame):
+class TickerWindow(tk.Frame):
     """
     Class creates tkinter window. It builds, displays, & modifies
     receiving input from the controller.
@@ -24,31 +23,35 @@ class TickerWindow(tkinter.Frame):
     font_size = 12
     updating_feed = []
 
-    def __init__(self, master=None, logger=None, config=None):
+    def __init__(self, master=None, config=None):
         """Initializes the display window for the news  ticker"""
-        self.logger = logger
-        self.logger.info("constructing gui")
         super().__init__(master)
         master.title('H5-NewsTracker')
         self.master = master
         self.winfo_toplevel().title("H5-NewsTracker")
-        self.style = ttk.Style()
+
+        logger.info("constructing gui")
+
         self.font = font.nametofont('TkDefaultFont')
-        self.logger.info("setting font size to: " + str(config['font_size']))
         self.font.configure(size=config['font_size'])
-        self.style.configure("default.TLabel", foreground="#000000", background="#ffffff", font='TkDefaultFont')
+
+        self.style = ttk.Style()
+        self.style.configure("default.TLabel", foreground=config['text_color'],
+                             background=config['background_color'], font='TkDefaultFont')
+
         self.label_ticker = ttk.Label(master)
-        self.label_ticker.configure(padding=[0, -1, 0, -1], style="default.TLabel")
+        self.label_ticker.configure(padding=['0', '-1', '0', '-1'], style="default.TLabel")
+
         self.build_menu_bar()
         self.label_ticker.pack()
-        self.logger.info("Gui constructed")
+        logger.info("Gui constructed")
 
     def build_menu_bar(self):
-        """ View.main_view.MainView.menu_bar adds a drop down menu for our tk window. """
-        menubar = tk.Menu(self)
-        background_menu = tk.Menu(menubar, tearoff=0)
-        font_color_menu = tk.Menu(menubar)
-        font_size_menu = tk.Menu(menubar)
+        """ H5_News_tracker.gui.ticker_window.TickerWindow.build_menu_bar adds the drop down menus for our tk window."""
+        self.menubar = tk.Menu(self)
+        background_menu = tk.Menu(self.menubar, tearoff=0)
+        font_color_menu = tk.Menu(self.menubar, tearoff=0)
+        font_size_menu = tk.Menu(self.menubar, tearoff=0)
 
         for color in self.colors:
             background_menu.add_command(label=color, command=lambda c=color: self.change_background_color(c))
@@ -56,11 +59,11 @@ class TickerWindow(tkinter.Frame):
 
         for size in self.font_sizes:
             font_size_menu.add_command(label=size, command=lambda s=size: self.change_font_size(s))
-        menubar.add_cascade(label='Background color', menu=background_menu)
-        menubar.add_cascade(label='Font color', menu=font_color_menu)
-        menubar.add_cascade(label='Font size', menu=font_size_menu)
+        self.menubar.add_cascade(label='Background color', menu=background_menu)
+        self.menubar.add_cascade(label='Font color', menu=font_color_menu)
+        self.menubar.add_cascade(label='Font size', menu=font_size_menu)
 
-        self.master.config(menu=menubar)
+        self.master.config(menu=self.menubar)
 
     def change_background_color(self, color):
         """
@@ -94,7 +97,7 @@ class TickerWindow(tkinter.Frame):
 
     def start(self):
         """Start gui main update loop """
-        self.logger.info("starting main loop")
+        logger.info("starting main loop")
         self.master.mainloop()
 
     def update_headline(self, headline, url):
@@ -120,6 +123,9 @@ class TickerWindow(tkinter.Frame):
             output = headline
         return output
 
-    def close(self, delay=0):
+    def close(self, delay):
+        print('will close window in: ' + str(delay) + ' seconds')
         time.sleep(delay)
-        self.master.quit
+        print('closing program')
+        self.master.quit()
+        print('program exit')
