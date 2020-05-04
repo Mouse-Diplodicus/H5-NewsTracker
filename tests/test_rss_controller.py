@@ -1,15 +1,12 @@
 """Tests for rss_controller.py"""
 import threading
 import time
-import tkinter
 import unittest
 import sys
 from unittest.mock import MagicMock
 from unittest.mock import patch
 from H5_News_Tracker.controller import rss_controller
-from H5_News_Tracker.gui.ticker_window import TickerWindow
 from H5_News_Tracker.controller import utilities
-from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.parser.feed_interface import ThreadSafeList
 
 
@@ -26,19 +23,23 @@ class TestMain(unittest.TestCase):
     @patch('H5_News_Tracker.controller.rss_controller.Controller')
     def test_start(self, mock_controller):
         print(sys.argv)
-        sys.argv[1] = '-vvv'
-        sys.argv[2] = '-t'
-        sys.argv[3] = '5'
-        sys.argv[4] = '-u'
-        sys.argv.append('https://news.google.com/news/rss')
-        sys.argv.append('-s')
-        sys.argv.append('14')
-        sys.argv.append('-c')
-        sys.argv.append('black')
-        sys.argv.append('-b')
-        sys.argv.append('white')
-        sys.argv.append('-l')
-        sys.argv.append('path_to_nothing')
+        print("sys.argv type", type(sys.argv))
+        sys_list = ['-vvv', '-t', '5', '-u', 'https://news.google.com/news/rss', '-s', '14', '-c', 'black', '-b',
+                    'white', '-l', 'path_to_nothing']
+        sys.argv = sys_list
+        #sys.argv[1] = '-vvv'
+        #sys.argv[2] = '-t'
+        #sys.argv[3] = '5'
+        #sys.argv[4] = '-u'
+        #sys.argv.append('https://news.google.com/news/rss')
+        #sys.argv.append('-s')
+        #sys.argv.append('14')
+        #sys.argv.append('-c')
+        #sys.argv.append('black')
+        #sys.argv.append('-b')
+        #sys.argv.append('white')
+        #sys.argv.append('-l')
+        #sys.argv.append('path_to_nothing')
         rss_controller.start()
         self.assertTrue(mock_controller.called)
         mock_controller.assert_has_calls(mock_controller.start_gui())
