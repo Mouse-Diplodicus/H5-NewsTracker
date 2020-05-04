@@ -25,8 +25,6 @@ class TickerWindow(tk.Frame):
     # background.set('black')
 
     var = tkinter.StringVar(root)
-    # var.set('Select')
-    # choices = ['Background Options', 'Black', 'White', 'Blue', 'Pink']
 
     label_ticker = ttk.Label(root)
     root.title("New JRRS")
@@ -54,7 +52,7 @@ class TickerWindow(tk.Frame):
         self.dropdown_menu.add_command(label='white', command=self.bg_white)
         self.dropdown_menu.add_command(label='red', command=self.bg_red)
         self.dropdown_menu.add_command(label='blue', command=self.bg_blue)
-        self.dropdown_menu.add_command(label='green', command=self.bg_green
+        self.dropdown_menu.add_command(label='green', command=self.bg_green)
         self.menubar.add_cascade(label='bg color', menu=self.dropdown_menu)
         self.master.config(menu=self.menubar)
 
@@ -153,7 +151,7 @@ class TickerWindow(tk.Frame):
         self.label_ticker["text"] = self.entry_title
         self.label_ticker.configure(text=headline, width=len(headline))
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
-        self.pack())
+        self.pack()
 
     def display_entry(self, entry_title: str, entry_link: str):
 
