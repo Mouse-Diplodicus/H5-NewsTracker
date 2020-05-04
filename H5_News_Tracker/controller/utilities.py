@@ -5,7 +5,7 @@ import sys
 import logging
 import yaml
 
-config_path = 'config.yml'
+CONFIG_PATH = 'config.yml'
 
 
 def get_logger():
@@ -25,14 +25,14 @@ def get_logger():
 def load_config_file():
     """H5_News_tracker.controller.utilities.load_config_file is used to load data from a configuration file"""
     try:
-        with open(config_path) as file:
+        with open(CONFIG_PATH) as file:
             config = yaml.safe_load(file)
             LOGGER.info('Successfully loaded config file')
             return config
     except FileNotFoundError:
         LOGGER.info('Could not find config file, generating new file')
         mk_config_file()
-        with open(config_path) as file:
+        with open(CONFIG_PATH) as file:
             config = yaml.safe_load(file)
             return config
 
@@ -51,7 +51,7 @@ def mk_config_file():
             background_color='black',
         )
     )
-    with open(config_path, 'w') as outfile:
+    with open(CONFIG_PATH, 'w') as outfile:
         yaml.dump(config, outfile)
 
 

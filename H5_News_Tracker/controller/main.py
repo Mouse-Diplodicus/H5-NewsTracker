@@ -22,7 +22,7 @@ def start():
         levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
         level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
         LOGGER.setLevel(level)
-        LOGGER.info("set Logger level to {0}".format(str(level)))
+        LOGGER.info("set Logger level to %s" % level)
 
     config = utilities.load_config_file()
     ticker_config = config['ticker_window']
@@ -49,18 +49,18 @@ def start():
     library = build_library(url_list)
 
     if ARGS.cycle_time:
-        ct = ARGS.cycle_time
+        cycle_time = ARGS.cycle_time
     else:
-        ct = config['source']['cycle_time']
+        cycle_time = config['source']['cycle_time']
 
-    control = Controller(library, cycle_time=ct, ticker_config=ticker_config)
+    control = Controller(library, cycle_time=cycle_time, ticker_config=ticker_config)
     control.start_gui()
 
 
 def url_list_from_file(file_path):
     """ Accepts a path to a test file and will return an array of urls"""
     try:
-        LOGGER.info('attempting to load file from: {0}'.format(file_path))
+        LOGGER.info('attempting to load file from: %s' % file_path)
         file_object = open(file_path, "r")
         url_list = file_object.readlines()
         file_object.close()
@@ -72,7 +72,7 @@ def url_list_from_file(file_path):
         logging.info(url_list)
         return url_list
     except FileNotFoundError:
-        LOGGER.error('failed to load file from: {0}'.format(file_path))
+        LOGGER.error('failed to load file from: %s' % file_path)
         return None
 
 
@@ -85,6 +85,7 @@ def build_library(url_list):
 
 
 def parse_args():
+    """ Function sets parser arguments for program and returns and list of arguments"""
     print(sys.argv)
     parser = argparse.ArgumentParser(description="H5-NewsTracker")
     parser.add_argument('-l', '--file', action='store', dest='file_path',
@@ -102,14 +103,17 @@ def parse_args():
     parser.add_argument('-b', '--background', action='store', dest='background', type=str,
                         help="enter desired background color e.g. -b white", nargs='*')
     parser.add_argument('-v', '--verbose', action='count', default=0, help="verbosity (-v, -v -v, -vvv etc.)")
-    global ARGS
-    ARGS = parser.parse_args()
+    return parser.parse_args()
+
+
+ARGS = parse_args()
 
 
 class Controller:
     """
     Class creates a Controller. It feeds and updates the display with new headlines and urls
     """
+
     # Constants
 
     def __init__(self, library, cycle_time=7, ticker_config=None):
@@ -132,7 +136,7 @@ class Controller:
                 ticker.update_headline(item[0], item[1])
                 time.sleep(self.cycle_time)
             if iterations is not None:
-                iterations = iterations-1
+                iterations = iterations - 1
 
     def start_gui(self):
         """Method starts the gui interface"""
