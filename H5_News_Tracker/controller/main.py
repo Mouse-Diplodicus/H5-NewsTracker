@@ -79,8 +79,10 @@ def load_config_file():
     try:
         with open('config.yml') as f:
             config = yaml.safe_load(f)
+            logger.info('Successfully loaded config file')
             return config
     except FileNotFoundError:
+        logger.info('Could not find config file, generating new file')
         mk_config_file()
         with open('config.yml') as f:
             data = yaml.safe_load(f)
@@ -121,19 +123,19 @@ def logger_setup():
 
 def parse_args():
     parser = argparse.ArgumentParser(description="H5-NewsTracker")
-    parser.add_argument('-l', '--file', action='store', dest='file_path', default="",
+    parser.add_argument('-l', '--file', action='store', dest='file_path',
                         help="enter path to flat list test document of feed urls")
-    parser.add_argument('-u', '--url', action='store', dest='feed_url', type=str, default="",
+    parser.add_argument('-u', '--url', action='store', dest='feed_url', type=str,
                         help="enter a RSS or Atom feed url", nargs='*')
-    parser.add_argument('-t', '--time', action='store', dest='cycle_time', type=int, default=5,
+    parser.add_argument('-t', '--time', action='store', dest='cycle_time', type=int,
                         help="enter desired cycle time in seconds e.g. -t 5", nargs='*')
-    parser.add_argument('-f', '--font', action='store', dest='font_type', type=str, default="",
+    parser.add_argument('-f', '--font', action='store', dest='font_type', type=str,
                         help="enter desired font e.g. -f", nargs='*')
-    parser.add_argument('-s', '--size', action='store', dest='font_size', type=int, default=12,
+    parser.add_argument('-s', '--size', action='store', dest='font_size', type=int,
                         help="enter desired font size e.g. -s 14", nargs='*')
-    parser.add_argument('-c', '--color', action='store', dest='text_color', type=str, default="black",
+    parser.add_argument('-c', '--color', action='store', dest='text_color', type=str,
                         help="enter desired text color e.g. -c black", nargs='*')
-    parser.add_argument('-b', '--background', action='store', dest='background', type=str, default="white",
+    parser.add_argument('-b', '--background', action='store', dest='background', type=str,
                         help="enter desired background color e.g. -b white", nargs='*')
     parser.add_argument('-v', '--verbose', action='count', default=0, help="verbosity (-v, -v -v, -vvv etc.)")
     global ARGS

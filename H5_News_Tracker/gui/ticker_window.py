@@ -33,14 +33,14 @@ class TickerWindow(tkinter.Frame):
         self.master = master
         self.winfo_toplevel().title("H5-NewsTracker")
         self.style = ttk.Style()
-        self.style.configure("default.TLabel", foreground="#000000", background="#ffffff")
+        self.font = font.nametofont('TkDefaultFont')
+        self.logger.info("setting font size to: " + str(config['font_size']))
+        self.font.configure(size=config['font_size'])
+        self.style.configure("default.TLabel", foreground="#000000", background="#ffffff", font='TkDefaultFont')
         self.label_ticker = ttk.Label(master)
         self.label_ticker.configure(padding=[0, -1, 0, -1], style="default.TLabel")
         self.build_menu_bar()
-        self.default_font = font.nametofont("TkDefaultFont")
-        self.default_font.configure(size=config['font_size'])
         self.label_ticker.pack()
-        self.pack()
         self.logger.info("Gui constructed")
 
     def build_menu_bar(self):
@@ -48,29 +48,19 @@ class TickerWindow(tkinter.Frame):
         menubar = tk.Menu(self)
         background_menu = tk.Menu(menubar, tearoff=0)
         font_color_menu = tk.Menu(menubar)
-        font_size_menu = ttk.Menu(menubar)
+        font_size_menu = tk.Menu(menubar)
 
         for color in self.colors:
             background_menu.add_command(label=color, command=lambda c=color: self.change_background_color(c))
             font_color_menu.add_command(label=color, command=lambda c=color: self.change_text_color(c))
 
         for size in self.font_sizes:
-            font_size_menu.add_command(label=size)
+            font_size_menu.add_command(label=size, command=lambda s=size: self.change_font_size(s))
         menubar.add_cascade(label='Background color', menu=background_menu)
         menubar.add_cascade(label='Font color', menu=font_color_menu)
         menubar.add_cascade(label='Font size', menu=font_size_menu)
 
         self.master.config(menu=menubar)
-
-    def change_text_color(self, color):
-        """
-        H5_News_tracker.gui.ticker_window.TickerWindow.change_text_color
-        This method changes the color of the styling for the background color of the label_ticker
-
-        Arguments:
-            color -- the new text color for the ticker label
-        """
-        self.style.configure("default.TLabel", foreground=color)
 
     def change_background_color(self, color):
         """
@@ -82,19 +72,30 @@ class TickerWindow(tkinter.Frame):
         """
         self.style.configure("default.TLabel", background=color)
 
+    def change_text_color(self, color):
+        """
+        H5_News_tracker.gui.ticker_window.TickerWindow.change_text_color
+        This method changes the color of the styling for the background color of the label_ticker
+
+        Arguments:
+            color -- the new text color for the ticker label
+        """
+        self.style.configure("default.TLabel", foreground=color)
+
+    def change_font_size(self, size):
+        """
+        H5_News_tracker.gui.ticker_window.TickerWindow.change_text_color
+        This method changes the color of the styling for the background color of the label_ticker
+
+        Arguments:
+            size -- the new font size for the text of the ticker label
+        """
+        self.font.configure(size=size)
+
     def start(self):
         """Start gui main update loop """
         self.logger.info("starting main loop")
         self.master.mainloop()
-
-    def set_style(self):
-        """Sets styling for various Tkinter objects"""
-        self.logger.info("setting styling")
-        style = ttk.Style()
-        style.configure("default.TLabel", foreground="#000000", background="#ffffff")
-        style.configure("WB.TLabel", foreground="#ffffff", background="#000000", relief="GROOVE")
-        style.configure("Exit.TLabel", foreground="#000000", background="#931113", relief="RAISED")
-        self.label_ticker.configure(style="WB.TLabel")
 
     def update_headline(self, headline, url):
         """Function updates the headline and associated url being displayed"""
@@ -108,11 +109,11 @@ class TickerWindow(tkinter.Frame):
             shorten the string and append an ellipse"""
         if headline is None:
             return ""
-        max_pixel_width = font.Font.measure(self.default_font, "n")*self.max_label_width
-        if max_pixel_width < font.Font.measure(self.default_font, headline):
+        max_pixel_width = font.Font.measure(self.font, "n")*self.max_label_width
+        if max_pixel_width < font.Font.measure(self.font, headline):
             index = self.max_label_width
-            max_pixel_width -= font.Font.measure(self.default_font, "...")
-            while max_pixel_width > font.Font.measure(self.default_font, headline[:index]):
+            max_pixel_width -= font.Font.measure(self.font, "...")
+            while max_pixel_width > font.Font.measure(self.font, headline[:index]):
                 index += 1
             output = headline[:index-1]+"..."
         else:
