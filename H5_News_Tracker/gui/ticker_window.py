@@ -8,7 +8,7 @@ from tkinter import font
 from tkinter import ttk
 from H5_News_Tracker.controller.utilities import get_logger
 
-logger = get_logger()
+LOGGER = get_logger()
 
 
 class TickerWindow(tk.Frame):
@@ -29,7 +29,7 @@ class TickerWindow(tk.Frame):
         self.master = master
         self.winfo_toplevel().title("H5-NewsTracker")
 
-        logger.info("constructing gui")
+        LOGGER.info("constructing gui")
 
         self.font = font.nametofont('TkDefaultFont')
         self.font.configure(size=config['font_size'])
@@ -43,7 +43,7 @@ class TickerWindow(tk.Frame):
 
         self.build_menu_bar()
         self.label_ticker.pack()
-        logger.info("Gui constructed")
+        LOGGER.info("Gui constructed")
 
     def build_menu_bar(self):
         """ H5_News_tracker.gui.ticker_window.TickerWindow.build_menu_bar adds the drop down menus for our tk window."""
@@ -96,7 +96,7 @@ class TickerWindow(tk.Frame):
 
     def start(self):
         """Start gui main update loop """
-        logger.info("starting main loop")
+        LOGGER.info("starting main loop")
         self.master.mainloop()
 
     def update_headline(self, headline, url):
@@ -123,8 +123,8 @@ class TickerWindow(tk.Frame):
         return output
 
     def close(self, delay):
-        print('will close window in: ' + str(delay) + ' seconds')
+        """Method will kill the ticker window instance currently running"""
+        LOGGER.info('will close window in: ' + str(delay) + ' seconds')
         time.sleep(delay)
-        print('closing program')
+        LOGGER.info('closing program')
         self.master.quit()
-        print('program exit')

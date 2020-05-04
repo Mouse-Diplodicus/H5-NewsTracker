@@ -1,16 +1,15 @@
 """
 Utilities module for H5-NewsTracker, contains function that are needed by multiple other modules
 """
-import yaml
 import sys
 import logging
+import yaml
 
-logger = None
 config_path = 'config.yml'
+
 
 def get_logger():
     """H5_News_tracker.controller.utilities.get_logger is used to provide a logger object when needed"""
-    global logger
     logging.basicConfig(level=logging.ERROR, format="%(asctime)s - %(levelname)s - %(message)s")
     logger = logging.getLogger()
     logger.setLevel(logging.ERROR)
@@ -26,15 +25,15 @@ def get_logger():
 def load_config_file():
     """H5_News_tracker.controller.utilities.load_config_file is used to load data from a configuration file"""
     try:
-        with open(config_path) as f:
-            config = yaml.safe_load(f)
-            logger.info('Successfully loaded config file')
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
+            LOGGER.info('Successfully loaded config file')
             return config
     except FileNotFoundError:
-        logger.info('Could not find config file, generating new file')
+        LOGGER.info('Could not find config file, generating new file')
         mk_config_file()
-        with open(config_path) as f:
-            config = yaml.safe_load(f)
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
             return config
 
 
@@ -54,3 +53,6 @@ def mk_config_file():
     )
     with open(config_path, 'w') as outfile:
         yaml.dump(config, outfile)
+
+
+LOGGER = get_logger()

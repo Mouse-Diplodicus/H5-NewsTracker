@@ -11,17 +11,18 @@ from H5_News_Tracker.parser import feed_interface
 from H5_News_Tracker.gui.ticker_window import TickerWindow
 from H5_News_Tracker.controller import utilities
 
-logger = utilities.get_logger()
+LOGGER = utilities.get_logger()
 ARGS = None
 
 
 def start():
+    """ Function initializes values for the Controller and TickerWindow Objects"""
     parse_args()
     if ARGS.verbose:
         levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
         level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
-        logger.setLevel(level)
-        logger.info("set Logger level to " + str(level))
+        LOGGER.setLevel(level)
+        LOGGER.info("set Logger level to {0}".format(str(level)))
 
     config = utilities.load_config_file()
     ticker_config = config['ticker_window']
@@ -41,10 +42,10 @@ def start():
         url_list = url_list_from_file(config['source']['path_to_file'])
     if config['source']['default_url'] and url_list is None:
         url_list = [config['source']['default_url']]
-    logger.info('url_list set to:')
-    logger.info(url_list)
+    LOGGER.info('url_list set to:')
+    LOGGER.info(url_list)
 
-    logger.info('Building library')
+    LOGGER.info('Building library')
     library = build_library(url_list)
 
     if ARGS.cycle_time:
@@ -59,7 +60,7 @@ def start():
 def url_list_from_file(file_path):
     """ Accepts a path to a test file and will return an array of urls"""
     try:
-        logger.info('attempting to load file from: ' + file_path)
+        LOGGER.info('attempting to load file from: {0}'.format(file_path))
         file_object = open(file_path, "r")
         url_list = file_object.readlines()
         file_object.close()
@@ -71,11 +72,12 @@ def url_list_from_file(file_path):
         logging.info(url_list)
         return url_list
     except FileNotFoundError:
-        logger.error('failed to load file from: ' + file_path)
+        LOGGER.error('failed to load file from: {0}'.format(file_path))
         return None
 
 
 def build_library(url_list):
+    """ Returns a list of headline, url pairs generated from the url_list of feeds"""
     library = []
     for url in url_list:
         library += feed_interface.build_library(feed_interface.parse(url))
@@ -105,24 +107,26 @@ def parse_args():
 
 
 class Controller:
-    """"""
+    """
+    Class creates a Controller. It feeds and updates the display with new headlines and urls
+    """
     # Constants
 
-    def __init__(self, library, cycle_time=7, ticker_config=None, **kw):
+    def __init__(self, library, cycle_time=7, ticker_config=None):
         """Uses ticker_window to show the news feeds provided by the url argument"""
-        logger.info("Starting News Ticker")
+        LOGGER.info("Starting News Ticker")
         self.cycle_time = cycle_time
         root = tkinter.Tk()
         self.ticker = TickerWindow(master=root, config=ticker_config)
         news_cycle_thread = threading.Thread(target=self.cycle, args=[self.ticker, library],
                                              name="News-Cycling-Thread", daemon=True)
-        logger.info("Starting Threads")
+        LOGGER.info("Starting Threads")
         news_cycle_thread.start()
-        logger.info("Program Exit")
+        LOGGER.info("Program Exit")
 
     def cycle(self, ticker, library, iterations=None):
         """Cycles through the various headlines"""
-        logger.info("Starting cycling of headlines")
+        LOGGER.info("Starting cycling of headlines")
         while iterations is None or iterations > 0:
             for item in library:
                 ticker.update_headline(item[0], item[1])
@@ -131,4 +135,5 @@ class Controller:
                 iterations = iterations-1
 
     def start_gui(self):
+        """Method starts the gui interface"""
         self.ticker.start()
