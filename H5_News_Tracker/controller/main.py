@@ -22,7 +22,7 @@ def start():
         levels = [logging.CRITICAL, logging.ERROR, logging.WARNING, logging.INFO, logging.DEBUG]
         level = levels[min(len(levels) - 1, ARGS.verbose)]  # capped to number of levels
         LOGGER.setLevel(level)
-        LOGGER.info("set Logger level to %s" % level)
+        LOGGER.info("set Logger level to %s", level)
 
     config = utilities.load_config_file()
     ticker_config = config['ticker_window']
@@ -60,7 +60,7 @@ def start():
 def url_list_from_file(file_path):
     """ Accepts a path to a test file and will return an array of urls"""
     try:
-        LOGGER.info('attempting to load file from: %s' % file_path)
+        LOGGER.info('attempting to load file from: %s', file_path)
         file_object = open(file_path, "r")
         url_list = file_object.readlines()
         file_object.close()
@@ -72,7 +72,7 @@ def url_list_from_file(file_path):
         logging.info(url_list)
         return url_list
     except FileNotFoundError:
-        LOGGER.error('failed to load file from: %s' % file_path)
+        LOGGER.error('failed to load file from: %s', file_path)
         return None
 
 

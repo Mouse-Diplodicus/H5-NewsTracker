@@ -124,7 +124,7 @@ class TickerWindow(tk.Frame):
 
     def close(self, delay):
         """Method will kill the ticker window instance currently running"""
-        LOGGER.info('will close window in: ' + str(delay) + ' seconds')
+        LOGGER.info('will close window in: %s seconds', delay)
         time.sleep(delay)
         LOGGER.info('closing program')
         self.master.quit()
