@@ -72,7 +72,7 @@ class TickerWindow(tk.Frame):
         Arguments:
             color -- the new background color for the ticker label
         """
-        self.style.configure("self.style_string", background=color)
+        self.style.configure(self.style_string, background=color)
 
     def change_text_color(self, color):
         """
@@ -82,7 +82,7 @@ class TickerWindow(tk.Frame):
         Arguments:
             color -- the new text color for the ticker label
         """
-        self.style.configure("self.style_string", foreground=color)
+        self.style.configure(self.style_string, foreground=color)
 
     def change_font_size(self, size):
         """
