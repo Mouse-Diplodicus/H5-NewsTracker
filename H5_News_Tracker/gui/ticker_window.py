@@ -11,6 +11,10 @@ from tkinter import ttk
 
 
 class TickerWindow(tk.Frame):
+    """
+    Class creates tkinter window. It builds, displays, & modifies
+    receiving input from the controller.
+    """
 
     entry_title = "[BLANK Entry Title]"
     entry_link = "[BLANK Entry Link]"
