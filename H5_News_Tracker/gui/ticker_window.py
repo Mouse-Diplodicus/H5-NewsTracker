@@ -4,13 +4,15 @@ Program displays a window with text using Tkinter when run.
 import tkinter
 import tkinter as tk
 import webbrowser
+import time
+from tkinter import font
 from tkinter import ttk
 # from tkinter.ttk import OptionMenu
 # from H5_News_Tracker.gui import color_test
 # from H5_News_Tracker.gui.color_test import root, Menu, main_menu
 
 
-class TickerWindow(tk.Frame):
+class TickerWindow(tkinter.Frame):
     """
     Class creates tkinter window. It builds, displays, & modifies
     receiving input from the controller.
@@ -18,22 +20,28 @@ class TickerWindow(tk.Frame):
 
     colors = ["red", "green", "blue", "yellow", "cyan", "magenta", "white", "black"]
     font_sizes = ['6', '8', '10', '12', '14', '16', '18', '20', '24', '26', '28', '36', '48']
+    max_label_width = 80
+    font_size = 12
+    updating_feed = []
 
-    def __init__(self, master=None, **kw):
-        """Initializes the display window for the news ticker"""
+    def __init__(self, master=None, logger=None, config=None):
+        """Initializes the display window for the news  ticker"""
+        self.logger = logger
+        self.logger.info("constructing gui")
         super().__init__(master)
         master.title('H5-NewsTracker')
         self.master = master
-
+        self.winfo_toplevel().title("H5-NewsTracker")
         self.style = ttk.Style()
         self.style.configure("default.TLabel", foreground="#000000", background="#ffffff")
         self.label_ticker = ttk.Label(master)
-        self.label_ticker.configure(width=8, style="default.TLabel")
-        self.label_ticker.configure(style="default.TLabel")
+        self.label_ticker.configure(padding=[0, -1, 0, -1], style="default.TLabel")
         self.build_menu_bar()
+        self.default_font = font.nametofont("TkDefaultFont")
+        self.default_font.configure(size=config['font_size'])
         self.label_ticker.pack()
         self.pack()
-        print("Gui constructed")
+        self.logger.info("Gui constructed")
 
     def build_menu_bar(self):
         """ View.main_view.MainView.menu_bar adds a drop down menu for our tk window. """
@@ -76,25 +84,41 @@ class TickerWindow(tk.Frame):
 
     def start(self):
         """Start gui main update loop """
-        print("starting main loop")
+        self.logger.info("starting main loop")
         self.master.mainloop()
 
-    def update(self, headline, url):
+    def set_style(self):
+        """Sets styling for various Tkinter objects"""
+        self.logger.info("setting styling")
+        style = ttk.Style()
+        style.configure("default.TLabel", foreground="#000000", background="#ffffff")
+        style.configure("WB.TLabel", foreground="#ffffff", background="#000000", relief="GROOVE")
+        style.configure("Exit.TLabel", foreground="#000000", background="#931113", relief="RAISED")
+        self.label_ticker.configure(style="WB.TLabel")
+
+    def update_headline(self, headline, url):
         """Function updates the headline and associated url being displayed"""
-        print("updating ticker to headline: ", headline, "   url: ", url)
-        self.winfo_toplevel().title("H5-NewsTracker")
-        self.label_ticker.configure(text=headline)
+        output = self.size_headline(headline)
+        self.label_ticker.configure(text=output)
         self.label_ticker.bind("<Button-1>", lambda e: webbrowser.open_new(url))
         self.label_ticker.update()
 
-    def display_entry(self, entry_title: str, entry_link: str):
+    def size_headline(self, headline):
+        """Function takes a string representing a headline and if it is longer than the maximum width allowed it will
+            shorten the string and append an ellipse"""
+        if headline is None:
+            return ""
+        max_pixel_width = font.Font.measure(self.default_font, "n")*self.max_label_width
+        if max_pixel_width < font.Font.measure(self.default_font, headline):
+            index = self.max_label_width
+            max_pixel_width -= font.Font.measure(self.default_font, "...")
+            while max_pixel_width > font.Font.measure(self.default_font, headline[:index]):
+                index += 1
+            output = headline[:index-1]+"..."
+        else:
+            output = headline
+        return output
 
-        """ Viw.main_view.MainView.display_entry changes the displayed title and associated link.
-        This function updates both entry_title and entry_link with the appropriate parameters and changes the text of
-        content_label to that of the new entry_title.
-        Arguments:
-            entry_title: a string showing a headline
-            entry_link: a string that is the url for entry_title
-        """
-        self.content_label["text"] = self.entry_title
-        self.content_label.update()
+    def close(self, delay=0):
+        time.sleep(delay)
+        self.master.quit
