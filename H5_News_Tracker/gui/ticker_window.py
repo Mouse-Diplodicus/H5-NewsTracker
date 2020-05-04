@@ -20,8 +20,7 @@ class TickerWindow(tk.Frame):
     colors = ["red", "green", "blue", "yellow", "cyan", "magenta", "white", "black"]
     font_sizes = ['6', '8', '10', '12', '14', '16', '18', '20', '24', '26', '28', '36', '48']
     max_label_width = 80
-    font_size = 12
-    updating_feed = []
+    style_string = "default.TLabel"
 
     def __init__(self, master=None, config=None):
         """Initializes the display window for the news  ticker"""
@@ -36,11 +35,11 @@ class TickerWindow(tk.Frame):
         self.font.configure(size=config['font_size'])
 
         self.style = ttk.Style()
-        self.style.configure("default.TLabel", foreground=config['text_color'],
+        self.style.configure(self.style_string, foreground=config['text_color'],
                              background=config['background_color'], font='TkDefaultFont')
 
         self.label_ticker = ttk.Label(master)
-        self.label_ticker.configure(padding=['0', '-1', '0', '-1'], style="default.TLabel")
+        self.label_ticker.configure(padding=['0', '-1', '0', '-1'], style=self.style_string)
 
         self.build_menu_bar()
         self.label_ticker.pack()
@@ -73,7 +72,7 @@ class TickerWindow(tk.Frame):
         Arguments:
             color -- the new background color for the ticker label
         """
-        self.style.configure("default.TLabel", background=color)
+        self.style.configure("self.style_string", background=color)
 
     def change_text_color(self, color):
         """
@@ -83,7 +82,7 @@ class TickerWindow(tk.Frame):
         Arguments:
             color -- the new text color for the ticker label
         """
-        self.style.configure("default.TLabel", foreground=color)
+        self.style.configure("self.style_string", foreground=color)
 
     def change_font_size(self, size):
         """
