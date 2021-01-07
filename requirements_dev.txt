@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.0
-lxml==4.5.0
+lxml==4.6.2
 pylint==2.4.4
 xenon==0.7.0
 radon==4.1.0
